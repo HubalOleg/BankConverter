@@ -1,6 +1,6 @@
 package com.oleg.hubal.bankconverter.main;
 
-import com.oleg.hubal.bankconverter.global.LoadCurrencyUtils;
+import com.oleg.hubal.bankconverter.global.utils.LoadCurrencyUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 

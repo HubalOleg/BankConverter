@@ -1,13 +1,7 @@
 package com.oleg.hubal.bankconverter.presentation.jobs;
 
-import android.util.Log;
-
-import com.oleg.hubal.bankconverter.global.Constants;
-import com.oleg.hubal.bankconverter.global.LoadCurrencyUtils;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
-
-import okhttp3.Response;
 
 /**
  * Created by User on 18.01.2017.
@@ -29,11 +23,7 @@ public class LoadCurrencyDataJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        Response response = LoadCurrencyUtils.getResponseFromRequest(Constants.CURRENCY_JSON_URL);
-        String responseBody = response.body().string();
 
-        String date = LoadCurrencyUtils.getDateFromResponseBody(responseBody);
-        Log.d(TAG, "onRun: " + date);
     }
 
     @Override
