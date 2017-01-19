@@ -3,9 +3,14 @@ package com.oleg.hubal.bankconverter.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
+import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.util.List;
 
 /**
  * Created by User on 19.01.2017.
@@ -18,43 +23,47 @@ public class Organization extends BaseModel {
     @PrimaryKey
     @SerializedName("id")
     @Expose
-    private String id;
+    public String id;
     @Column
     @SerializedName("title")
     @Expose
-    private String title;
+    public String title;
     @Column
     @SerializedName("regionId")
     @Expose
-    private String regionId;
+    public String regionId;
     @Column
     @SerializedName("cityId")
     @Expose
-    private String cityId;
+    public String cityId;
     @Column
     @SerializedName("phone")
     @Expose
-    private String phone;
+    public String phone;
     @Column
     @SerializedName("address")
     @Expose
-    private String address;
+    public String address;
     @Column
     @SerializedName("link")
     @Expose
-    private String link;
+    public  String link;
+    @ColumnIgnore
+    public transient List<Currency> currency;
 
-    public Organization() {
+
+    @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "currency")
+    public List<Currency> oneToManyCurrencies() {
+        if (currency == null || currency.isEmpty()) {
+            currency = SQLite.select()
+                    .from(Currency.class)
+                    .where(Currency_Table.organizationId.eq(id))
+                    .queryList();
+        }
+        return currency;
     }
 
-    public Organization(String id, String title, String regionId, String cityId, String phone, String address, String link) {
-        this.id = id;
-        this.title = title;
-        this.regionId = regionId;
-        this.cityId = cityId;
-        this.phone = phone;
-        this.address = address;
-        this.link = link;
+    public Organization() {
     }
 
     public String getId() {
@@ -69,47 +78,31 @@ public class Organization extends BaseModel {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getRegionId() {
         return regionId;
-    }
-
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
     }
 
     public String getCityId() {
         return cityId;
     }
 
-    public void setCityId(String cityId) {
-        this.cityId = cityId;
-    }
-
     public String getPhone() {
         return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getLink() {
         return link;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public List<Currency> getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(List<Currency> currency) {
+        this.currency = currency;
     }
 }

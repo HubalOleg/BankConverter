@@ -11,4 +11,6 @@ public class LoadConstants {
     public final static String KEY_DATE_JSON = "date";
     public final static String KEY_SOURCE_ID_JSON = "sourceId";
     public final static String KEY_ORGANIZATIONS_JSON = "organizations";
+    public final static String KEY_CURRENCIES_JSON = "currencies";
+    public final static String KEY_ID_JSON = "id";
 }

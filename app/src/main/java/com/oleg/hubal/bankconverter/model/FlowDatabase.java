@@ -9,5 +9,5 @@ import com.raizlabs.android.dbflow.annotation.Database;
 @Database(name = FlowDatabase.NAME, version = FlowDatabase.VERSION)
 public class FlowDatabase {
     public static final String NAME = "TopFourDatabase";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
 }

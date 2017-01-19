@@ -1,6 +1,6 @@
 package com.oleg.hubal.bankconverter.main;
 
-import com.oleg.hubal.bankconverter.global.utils.LoadCurrencyUtils;
+import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 
@@ -22,7 +22,7 @@ public class MainTest {
     private MainView mMainView;
 
     @Mock
-    private LoadCurrencyUtils mLoadCurrencyUtils;
+    private LoadUtils mLoadUtils;
 
     private MainPresenter mMainPresenter;
 
