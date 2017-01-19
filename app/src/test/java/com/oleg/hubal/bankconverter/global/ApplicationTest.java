@@ -1,6 +1,5 @@
-package com.oleg.hubal.bankconverter.utils;
+package com.oleg.hubal.bankconverter.global;
 
-import com.oleg.hubal.bankconverter.global.BankConverterApplication;
 import com.path.android.jobqueue.JobManager;
 
 import org.junit.Test;
@@ -12,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  * Created by User on 18.01.2017.
  */
 
-public class UtilityTest {
+public class ApplicationTest {
 
     @Mock
     private BankConverterApplication mBankConverterApplication;
