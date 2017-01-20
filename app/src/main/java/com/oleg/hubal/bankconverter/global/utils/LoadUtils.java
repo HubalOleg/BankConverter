@@ -3,6 +3,7 @@ package com.oleg.hubal.bankconverter.global.utils;
 import com.google.gson.Gson;
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.model.Currency;
+import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.Organization;
 
 import org.json.JSONArray;
@@ -24,24 +25,37 @@ import okhttp3.Response;
 
 public class LoadUtils {
 
-    public static List<Organization> loadOrganizationList(String currentDate) throws IOException, JSONException {
-        List<Organization> organizationList;
+    public static List<Organization> loadUpdatedOrganizationList(String currentDate) throws IOException, JSONException {
+        List<Organization> organizationList = new ArrayList<>();
+
+        Response response = getResponseFromRequest();
+
+        if (!response.isSuccessful()) {
+            return organizationList;
+        }
+
+        JSONObject responseJSON = getJSONObjectFromResponse(response);
+
+        String responseDate = getDataDate(responseJSON);
+
+        if (isDataUpdated(currentDate, responseDate)) {
+            organizationList = getOrganizationList(responseJSON);
+        }
+
+        return organizationList;
+    }
+
+    public static List<CurrencyAbbr> loadCurrencyAbbreviation() throws IOException, JSONException {
+        List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
 
         Response response = getResponseFromRequest();
 
         if (response.isSuccessful()) {
-            return null;
+            JSONObject responseJSON = getJSONObjectFromResponse(response);
+            currencyAbbrList = getCurrencyAbbrList(responseJSON);
         }
 
-        String responseBody = response.body().string();
-        JSONObject responseJSON = new JSONObject(responseBody);
-        String responseDate = getDataDate(responseJSON);
-
-        if (!isDataUpdated(currentDate, responseDate)) {
-            return null;
-        }
-
-        return null;
+        return currencyAbbrList;
     }
 
     public static Response getResponseFromRequest() throws IOException {
@@ -96,6 +110,7 @@ public class LoadUtils {
         while (keysIterator.hasNext()) {
             String key = keysIterator.next();
             JSONObject currencyJSONObject = currenciesJSONObject.getJSONObject(key);
+
             Currency currency = gson.fromJson(currencyJSONObject.toString(), Currency.class);
             currency.setNameAbbreviation(key);
             currency.setOrganizationId(organizationId);
@@ -105,10 +120,35 @@ public class LoadUtils {
         return currencyList;
     }
 
+    public static List<CurrencyAbbr> getCurrencyAbbrList(JSONObject responseJSON) throws JSONException {
+        List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
+
+        JSONObject currencyAbbrJSON = responseJSON.getJSONObject(LoadConstants.KEY_CURRENCIES_JSON);
+
+        Iterator<String> keysIterator = currencyAbbrJSON.keys();
+
+        while (keysIterator.hasNext()) {
+            String key = keysIterator.next();
+
+            CurrencyAbbr currencyAbbr = new CurrencyAbbr();
+            currencyAbbr.setAbbreviation(key);
+            currencyAbbr.setName(currencyAbbrJSON.getString(key));
+            currencyAbbrList.add(currencyAbbr);
+        }
+
+        return currencyAbbrList;
+    }
+
     public static String getArrayFromResponse(JSONObject responseJSON, String arrayKey) throws JSONException {
         JSONArray jsonArray = responseJSON.getJSONArray(arrayKey);
 
         return jsonArray.toString();
+    }
+
+    public static JSONObject getJSONObjectFromResponse(Response response) throws IOException, JSONException {
+        String responseBody = response.body().string();
+
+        return new JSONObject(responseBody);
     }
 
 }

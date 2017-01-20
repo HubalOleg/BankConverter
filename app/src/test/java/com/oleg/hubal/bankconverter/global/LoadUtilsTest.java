@@ -3,6 +3,7 @@ package com.oleg.hubal.bankconverter.global;
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.model.Currency;
+import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.Organization;
 
 import org.json.JSONArray;
@@ -32,6 +33,19 @@ public class LoadUtilsTest {
     @Before
     public void initJSONObject() throws JSONException {
         mResponseJSON = new JSONObject(RESPONSE_BODY_TEST);
+    }
+
+    @Test
+    public void loadUpdatedOrganizationList_LoadWithNewDate() throws IOException, JSONException {
+        String currentDate = "2017-01-19T09:33:33+02:00";
+        List<Organization> organizationList = LoadUtils.loadUpdatedOrganizationList(currentDate);
+        assertTrue(organizationList.size() > 0);
+    }
+
+    @Test
+    public void loadCurrencyAbbrList_CheckSize() throws IOException, JSONException {
+        List<CurrencyAbbr> currencyAbbrList = LoadUtils.loadCurrencyAbbreviation();
+        assertTrue(currencyAbbrList.size() > 0);
     }
 
     @Test
@@ -145,5 +159,19 @@ public class LoadUtilsTest {
         assertEquals(currency.getNameAbbreviation(), "EUR");
         assertEquals(currency.getAsk(), "30.7000");
         assertEquals(currency.getBid(), "29.1000");
+    }
+
+    @Test
+    public void getCurrencyAbbrList_CheckFields() throws JSONException {
+        List<CurrencyAbbr> currencyAbbrList = LoadUtils.getCurrencyAbbrList(mResponseJSON);
+        CurrencyAbbr currencyAbbr = currencyAbbrList.get(0);
+
+        String expectedAbbreviation = "AED";
+        String actualAbbreviation = currencyAbbr.getAbbreviation();
+        String expectedName = "дирхамы ОАЭ";
+        String actualName = currencyAbbr.getName();
+
+        assertEquals(expectedAbbreviation, actualAbbreviation);
+        assertEquals(expectedName, actualName);
     }
 }

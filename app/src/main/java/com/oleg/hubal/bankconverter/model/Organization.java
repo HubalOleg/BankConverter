@@ -16,7 +16,7 @@ import java.util.List;
  * Created by User on 19.01.2017.
  */
 
-@Table(database = FlowDatabase.class)
+@Table(database = CurrencyDatabase.class)
 public class Organization extends BaseModel {
 
     @Column
@@ -64,6 +64,17 @@ public class Organization extends BaseModel {
     }
 
     public Organization() {
+    }
+
+    public Organization(String id, String title, String regionId, String cityId, String phone, String address, String link, List<Currency> currency) {
+        this.id = id;
+        this.title = title;
+        this.regionId = regionId;
+        this.cityId = cityId;
+        this.phone = phone;
+        this.address = address;
+        this.link = link;
+        this.currency = currency;
     }
 
     public String getId() {

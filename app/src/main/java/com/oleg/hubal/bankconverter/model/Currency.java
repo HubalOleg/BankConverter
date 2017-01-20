@@ -11,7 +11,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  * Created by User on 19.01.2017.
  */
 
-@Table(database = FlowDatabase.class)
+@Table(database = CurrencyDatabase.class)
 public class Currency extends BaseModel {
 
     @Column

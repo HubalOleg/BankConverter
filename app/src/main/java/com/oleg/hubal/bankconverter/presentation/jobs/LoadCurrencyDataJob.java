@@ -3,17 +3,11 @@ package com.oleg.hubal.bankconverter.presentation.jobs;
 import android.util.Log;
 
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
-import com.oleg.hubal.bankconverter.model.Currency;
 import com.oleg.hubal.bankconverter.model.Organization;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import org.json.JSONObject;
 
 import java.util.List;
-
-import okhttp3.Response;
 
 /**
  * Created by User on 18.01.2017.
@@ -35,19 +29,9 @@ public class LoadCurrencyDataJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        Response response = LoadUtils.getResponseFromRequest();
-        JSONObject responseJSON = new JSONObject(response.body().string());
-        List<Organization> organizationList = LoadUtils.getOrganizationList(responseJSON);
+        List<Organization> organizationList = LoadUtils.loadUpdatedOrganizationList("");
         for (Organization organization : organizationList) {
-            organization.save();
-        }
-        List<Organization> organizationList1 = SQLite.select().from(Organization.class).queryList();
-        for (Organization organization : organizationList1) {
-
-            for(Currency currenct : organization.getCurrency()) {
-                Log.d(TAG, "onRun: " + organization.getTitle());
-                Log.d(TAG, "onRun: " + currenct.getNameAbbreviation());
-            }
+            Log.d(TAG, "onRun: " + organization.getTitle());
         }
     }
 
