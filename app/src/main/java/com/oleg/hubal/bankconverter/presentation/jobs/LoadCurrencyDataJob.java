@@ -2,11 +2,14 @@ package com.oleg.hubal.bankconverter.presentation.jobs;
 
 import android.util.Log;
 
+import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.global.utils.ResponseParseManager;
+import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
@@ -34,11 +37,17 @@ public class LoadCurrencyDataJob extends Job {
     public void onRun() throws Throwable {
         Response response = LoadUtils.getResponseFromRequest();
         ResponseParseManager responseParseManager = new ResponseParseManager(response);
+//
+        List<Organization> organizationList1 = responseParseManager.getOrganizationList();
+        CurrencyDatabaseUtils.saveOrganizationList(organizationList1);
 
-        List<Organization> organizationList = responseParseManager.getOrganizationList();
+        List<Organization> organizationList = SQLite.select().from(Organization.class).queryList();
 
         for (Organization organization : organizationList) {
-            Log.d(TAG, "onRun: " + organization.getTitle());
+            List<Currency> currencyList = organization.getCurrency();
+            for (Currency currency : currencyList) {
+                Log.d(TAG, "onRun: " + currency.getOrganizationId() + " " + currency.getNameAbbreviation() + " " + currency.isCurrent());
+            }
         }
     }
 

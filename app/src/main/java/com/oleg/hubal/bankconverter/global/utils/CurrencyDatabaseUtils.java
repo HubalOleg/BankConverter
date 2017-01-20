@@ -27,12 +27,16 @@ public class CurrencyDatabaseUtils {
     }
 
     private static boolean isOrganizationExist(String organizationId) {
-        boolean isExist = SQLite.select()
+        Organization organization = SQLite.select()
                 .from(Organization.class)
                 .where(Organization_Table.id.is(organizationId))
-                .hasData();
+                .querySingle();
 
-        return isExist;
+        if (organization == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private static void updateCurrency(String organizationId) {
@@ -44,6 +48,7 @@ public class CurrencyDatabaseUtils {
 
         for (Currency currency : currencyList) {
             currency.setCurrent(false);
+            currency.save();
         }
     }
 

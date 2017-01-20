@@ -68,6 +68,7 @@ public class ResponseParseManager {
             Currency currency = gson.fromJson(currencyJSONObject.toString(), Currency.class);
             currency.setNameAbbreviation(key);
             currency.setOrganizationId(organizationId);
+            currency.setCurrent(true);
             currencyList.add(currency);
         }
 

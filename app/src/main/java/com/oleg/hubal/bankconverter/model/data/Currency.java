@@ -21,7 +21,7 @@ public class Currency extends BaseModel {
     @Column
     @PrimaryKey
     public String nameAbbreviation;
-    @Column(defaultValue = "true")
+    @Column()
     @PrimaryKey
     public transient boolean isCurrent;
     @Column
@@ -34,6 +34,13 @@ public class Currency extends BaseModel {
     public String bid;
 
     public Currency() {
+    }
+
+    public Currency(String organizationId, String nameAbbreviation, String ask, String bid) {
+        this.organizationId = organizationId;
+        this.nameAbbreviation = nameAbbreviation;
+        this.ask = ask;
+        this.bid = bid;
     }
 
     public String getOrganizationId() {
