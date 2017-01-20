@@ -2,7 +2,7 @@ package com.oleg.hubal.bankconverter.presentation.jobs;
 
 import android.util.Log;
 
-import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
+import com.oleg.hubal.bankconverter.model.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.global.utils.ResponseParseManager;
 import com.oleg.hubal.bankconverter.model.data.Currency;

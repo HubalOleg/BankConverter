@@ -17,21 +17,21 @@ public class Currency extends BaseModel {
 
     @Column
     @PrimaryKey
-    public String organizationId;
+    String organizationId;
     @Column
     @PrimaryKey
-    public String nameAbbreviation;
+    String nameAbbreviation;
     @Column()
     @PrimaryKey
-    public transient boolean isCurrent;
+    transient boolean isCurrent;
     @Column
     @SerializedName("ask")
     @Expose
-    public String ask;
+    String ask;
     @Column
     @SerializedName("bid")
     @Expose
-    public String bid;
+    String bid;
 
     public Currency() {
     }

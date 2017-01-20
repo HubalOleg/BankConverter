@@ -1,10 +1,15 @@
-package com.oleg.hubal.bankconverter.global.utils;
+package com.oleg.hubal.bankconverter.model;
 
+import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Currency;
+import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.data.Currency_Table;
+import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Organization_Table;
+import com.oleg.hubal.bankconverter.model.data.Region;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.util.List;
 
@@ -52,4 +57,29 @@ public class CurrencyDatabaseUtils {
         }
     }
 
+    public static void saveList(List<? extends BaseModel> baseModelList) {
+        for (BaseModel baseModel : baseModelList) {
+            baseModel.save();
+        }
+    }
+
+    public static List<Organization> queryOrganizationList() {
+        return SQLite.select().from(Organization.class).queryList();
+    }
+
+    public static List<CurrencyAbbr> queryCurrencyAbbrList() {
+        return SQLite.select().from(CurrencyAbbr.class).queryList();
+    }
+
+    public static List<City> queryCityList() {
+        return SQLite.select().from(City.class).queryList();
+    }
+
+    public static List<Region> queryRegionList() {
+        return SQLite.select().from(Region.class).queryList();
+    }
+
+    public static Date queryDate() {
+        return SQLite.select().from(Date.class).querySingle();
+    }
 }

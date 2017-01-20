@@ -24,33 +24,33 @@ public class Organization extends BaseModel {
     @PrimaryKey
     @SerializedName("id")
     @Expose
-    public String id;
+    String id;
     @Column
     @SerializedName("title")
     @Expose
-    public String title;
+    String title;
     @Column
     @SerializedName("regionId")
     @Expose
-    public String regionId;
+    String regionId;
     @Column
     @SerializedName("cityId")
     @Expose
-    public String cityId;
+    String cityId;
     @Column
     @SerializedName("phone")
     @Expose
-    public String phone;
+    String phone;
     @Column
     @SerializedName("address")
     @Expose
-    public String address;
+    String address;
     @Column
     @SerializedName("link")
     @Expose
-    public  String link;
+    String link;
     @ColumnIgnore
-    public transient List<Currency> currency;
+    transient List<Currency> currency;
 
 
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "currency")
