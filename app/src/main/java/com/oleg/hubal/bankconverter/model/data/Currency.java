@@ -1,7 +1,8 @@
-package com.oleg.hubal.bankconverter.model;
+package com.oleg.hubal.bankconverter.model.data;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.oleg.hubal.bankconverter.model.CurrencyDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;

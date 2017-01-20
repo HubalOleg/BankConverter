@@ -13,5 +13,6 @@ public class LoadConstants {
     public final static String KEY_JSON_ORGANIZATIONS = "organizations";
     public final static String KEY_JSON_CURRENCIES = "currencies";
     public final static String KEY_JSON_REGIONS = "regions";
+    public final static String KEY_JSON_CITIES = "cities";
     public final static String KEY_JSON_ID = "id";
 }

@@ -3,7 +3,7 @@ package com.oleg.hubal.bankconverter.presentation.jobs;
 import android.util.Log;
 
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
-import com.oleg.hubal.bankconverter.model.Organization;
+import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 

@@ -2,10 +2,11 @@ package com.oleg.hubal.bankconverter.global.utils;
 
 import com.google.gson.Gson;
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
-import com.oleg.hubal.bankconverter.model.Currency;
-import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
-import com.oleg.hubal.bankconverter.model.Organization;
-import com.oleg.hubal.bankconverter.model.Region;
+import com.oleg.hubal.bankconverter.model.data.City;
+import com.oleg.hubal.bankconverter.model.data.Currency;
+import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
+import com.oleg.hubal.bankconverter.model.data.Organization;
+import com.oleg.hubal.bankconverter.model.data.Region;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +72,19 @@ public class LoadUtils {
 
 
         return regionList;
+    }
+
+    public static List<City> loadCityList() throws IOException, JSONException {
+        List<City> cityList = new ArrayList<>();
+
+        Response response = getResponseFromRequest();
+
+        if (response.isSuccessful()) {
+            JSONObject responseJSON = getJSONObjectFromResponse(response);
+            cityList = getCityList(responseJSON);
+        }
+
+        return cityList;
     }
 
     public static Response getResponseFromRequest() throws IOException {
@@ -178,5 +192,25 @@ public class LoadUtils {
         }
 
         return regionList;
+    }
+
+
+    public static List<City> getCityList(JSONObject responseJSON) throws JSONException {
+        List<City> cityList = new ArrayList<>();
+
+        JSONObject citiesJSON = responseJSON.getJSONObject(LoadConstants.KEY_JSON_CITIES);
+
+        Iterator<String> keysIterator = citiesJSON.keys();
+
+        while (keysIterator.hasNext()) {
+            String key = keysIterator.next();
+
+            City city = new City();
+            city.setCityId(key);
+            city.setName(citiesJSON.getString(key));
+            cityList.add(city);
+        }
+
+        return cityList;
     }
 }

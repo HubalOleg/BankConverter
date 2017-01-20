@@ -1,5 +1,6 @@
-package com.oleg.hubal.bankconverter.model;
+package com.oleg.hubal.bankconverter.model.data;
 
+import com.oleg.hubal.bankconverter.model.CurrencyDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -9,23 +10,23 @@ import com.raizlabs.android.dbflow.annotation.Table;
  */
 
 @Table(database = CurrencyDatabase.class)
-public class Region {
+public class City {
 
     @Column
     @PrimaryKey
-    public String regionId;
+    public String cityId;
     @Column
     public String name;
 
-    public Region() {
+    public City() {
     }
 
-    public String getRegionId() {
-        return regionId;
+    public String getCityId() {
+        return cityId;
     }
 
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
+    public void setCityId(String cityId) {
+        this.cityId = cityId;
     }
 
     public String getName() {

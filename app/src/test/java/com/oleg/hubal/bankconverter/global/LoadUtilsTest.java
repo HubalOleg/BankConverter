@@ -2,10 +2,11 @@ package com.oleg.hubal.bankconverter.global;
 
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
-import com.oleg.hubal.bankconverter.model.Currency;
-import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
-import com.oleg.hubal.bankconverter.model.Organization;
-import com.oleg.hubal.bankconverter.model.Region;
+import com.oleg.hubal.bankconverter.model.data.City;
+import com.oleg.hubal.bankconverter.model.data.Currency;
+import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
+import com.oleg.hubal.bankconverter.model.data.Organization;
+import com.oleg.hubal.bankconverter.model.data.Region;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +30,9 @@ import static org.junit.Assert.assertTrue;
 public class LoadUtilsTest {
 
     private static final String RESPONSE_BODY_TEST = "{\n\"sourceId\":\"currency-cash\",\n\"date\":\"2017-01-19T09:33:33+02:00\",\n\"organizations\":[\n{\n\"id\":\"7oiylpmiow8iy1smaze\",\n\"oldId\":1233,\n\"orgType\":1,\n\"branch\":false,\n\"title\":\"А-Банк\",\n\"regionId\":\"ua,7oiylpmiow8iy1smaci\",\n\"cityId\":\"7oiylpmiow8iy1smadm\",\n\"phone\":\"0800500809\",\n\"address\":\"ул. Батумская, 11\",\n\"link\":\"http://organizations.finance.ua/ru/info/currency/-/7oiylpmiow8iy1smaze/cash\",\n\"currencies\":{\n\"EUR\":{\n\"ask\":\"30.7000\",\n\"bid\":\"29.1000\"\n},\n\"RUB\":{\n\"ask\":\"0.4840\",\n\"bid\":\"0.4520\"\n},\n\"USD\":{\n\"ask\":\"28.7000\",\n\"bid\":\"27.2000\"\n}\n}\n}\n],\n\"currencies\":{\n\"AED\":\"дирхамы ОАЭ\"\n},\n\"regions\":{\n\"ua,7oiylpmiow8iy1smacn\":\"Автономная Республика Крым\"\n},\n\"cities\":{\n\"7oiylpmiow8iy1smadm\":\"Днепр\"\n}\n}";
+    public static final String DATE_TEST = "2017-02-19T09:33:33+02:00";
     private JSONObject mResponseJSON;
+    private static int EMPTY_LIST = 0;
 
     @Before
     public void initJSONObject() throws JSONException {
@@ -40,19 +43,25 @@ public class LoadUtilsTest {
     public void loadUpdatedOrganizationList_CheckSize() throws IOException, JSONException {
         String currentDate = "2017-01-19T09:33:33+02:00";
         List<Organization> organizationList = LoadUtils.loadUpdatedOrganizationList(currentDate);
-        assertTrue(organizationList.size() > 0);
+        assertTrue(organizationList.size() > EMPTY_LIST);
     }
 
     @Test
     public void loadCurrencyAbbreviationList_CheckSize() throws IOException, JSONException {
         List<CurrencyAbbr> currencyAbbrList = LoadUtils.loadCurrencyAbbreviationList();
-        assertTrue(currencyAbbrList.size() > 0);
+        assertTrue(currencyAbbrList.size() > EMPTY_LIST);
     }
 
     @Test
     public void loadRegionList_CheckSize() throws IOException, JSONException {
         List<Region> regionList = LoadUtils.loadRegionList();
-        assertTrue(regionList.size() > 0);
+        assertTrue(regionList.size() > EMPTY_LIST);
+    }
+
+    @Test
+    public void loadCityList_CheckSize() throws IOException, JSONException {
+        List<City> cityList = LoadUtils.loadCityList();
+        assertTrue(cityList.size() > EMPTY_LIST);
     }
 
     @Test
@@ -102,7 +111,7 @@ public class LoadUtilsTest {
     @Test
     public void isDataUpdated_EmptyCurrentDate() {
         String currentDate = "";
-        String responseDate = "2017-02-19T09:33:33+02:00";
+        String responseDate = DATE_TEST;
 
         boolean isUpdated = LoadUtils.isDataUpdated(currentDate, responseDate);
 
@@ -111,8 +120,8 @@ public class LoadUtilsTest {
 
     @Test
     public void isDataUpdate_SameDate() {
-        String currentDate = "2017-02-19T09:33:33+02:00";
-        String responseDate = "2017-02-19T09:33:33+02:00";
+        String currentDate = DATE_TEST;
+        String responseDate = DATE_TEST;
 
         boolean isUpdated = LoadUtils.isDataUpdated(currentDate, responseDate);
 
@@ -185,6 +194,20 @@ public class LoadUtilsTest {
         String actualName = region.getName();
 
         assertEquals(expectedRegionId, actualRegionId);
+        assertEquals(expectedName, actualName);
+    }
+
+    @Test
+    public void getCityList_CheckFields() throws JSONException {
+        List<City> cityList = LoadUtils.getCityList(mResponseJSON);
+        City city = cityList.get(0);
+
+        String expectedCityId = "7oiylpmiow8iy1smadm";
+        String actualCityId = city.getCityId();
+        String expectedName = "Днепр";
+        String actualName = city.getName();
+
+        assertEquals(expectedCityId, actualCityId);
         assertEquals(expectedName, actualName);
     }
 }
