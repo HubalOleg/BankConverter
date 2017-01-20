@@ -14,4 +14,25 @@ public class Region {
     @Column
     @PrimaryKey
     public String regionId;
+    @Column
+    public String name;
+
+    public Region() {
+    }
+
+    public String getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

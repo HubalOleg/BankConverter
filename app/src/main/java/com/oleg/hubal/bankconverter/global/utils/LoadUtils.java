@@ -5,6 +5,7 @@ import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.model.Currency;
 import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.Organization;
+import com.oleg.hubal.bankconverter.model.Region;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class LoadUtils {
         return organizationList;
     }
 
-    public static List<CurrencyAbbr> loadCurrencyAbbreviation() throws IOException, JSONException {
+    public static List<CurrencyAbbr> loadCurrencyAbbreviationList() throws IOException, JSONException {
         List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
 
         Response response = getResponseFromRequest();
@@ -56,6 +57,20 @@ public class LoadUtils {
         }
 
         return currencyAbbrList;
+    }
+
+    public static List<Region> loadRegionList() throws IOException, JSONException {
+        List<Region> regionList = new ArrayList<>();
+
+        Response response = getResponseFromRequest();
+
+        if (response.isSuccessful()) {
+            JSONObject responseJSON = getJSONObjectFromResponse(response);
+            regionList = getRegionList(responseJSON);
+        }
+
+
+        return regionList;
     }
 
     public static Response getResponseFromRequest() throws IOException {
@@ -69,8 +84,14 @@ public class LoadUtils {
         return response;
     }
 
+    public static JSONObject getJSONObjectFromResponse(Response response) throws IOException, JSONException {
+        String responseBody = response.body().string();
+
+        return new JSONObject(responseBody);
+    }
+
     public static String getDataDate(JSONObject responseJSON) throws JSONException {
-        String currencyDate = responseJSON.getString(LoadConstants.KEY_DATE_JSON);
+        String currencyDate = responseJSON.getString(LoadConstants.KEY_JSON_DATE);
         return currencyDate;
     }
 
@@ -82,7 +103,7 @@ public class LoadUtils {
         Gson gson =  new Gson();
         List<Organization> organizationList = new ArrayList<>();
 
-        JSONArray organizationArray = responseJSON.getJSONArray(LoadConstants.KEY_ORGANIZATIONS_JSON);
+        JSONArray organizationArray = responseJSON.getJSONArray(LoadConstants.KEY_JSON_ORGANIZATIONS);
 
         for (int i = 0; i < organizationArray.length(); i++) {
             JSONObject organizationJSONObject = organizationArray.getJSONObject(i);
@@ -102,9 +123,9 @@ public class LoadUtils {
         Gson gson =  new Gson();
         List<Currency> currencyList = new ArrayList<>();
 
-        String organizationId = organizationJSONObject.getString(LoadConstants.KEY_ID_JSON);
+        String organizationId = organizationJSONObject.getString(LoadConstants.KEY_JSON_ID);
 
-        JSONObject currenciesJSONObject = organizationJSONObject.getJSONObject(LoadConstants.KEY_CURRENCIES_JSON);
+        JSONObject currenciesJSONObject = organizationJSONObject.getJSONObject(LoadConstants.KEY_JSON_CURRENCIES);
         Iterator<String> keysIterator = currenciesJSONObject.keys();
 
         while (keysIterator.hasNext()) {
@@ -123,7 +144,7 @@ public class LoadUtils {
     public static List<CurrencyAbbr> getCurrencyAbbrList(JSONObject responseJSON) throws JSONException {
         List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
 
-        JSONObject currencyAbbrJSON = responseJSON.getJSONObject(LoadConstants.KEY_CURRENCIES_JSON);
+        JSONObject currencyAbbrJSON = responseJSON.getJSONObject(LoadConstants.KEY_JSON_CURRENCIES);
 
         Iterator<String> keysIterator = currencyAbbrJSON.keys();
 
@@ -139,16 +160,23 @@ public class LoadUtils {
         return currencyAbbrList;
     }
 
-    public static String getArrayFromResponse(JSONObject responseJSON, String arrayKey) throws JSONException {
-        JSONArray jsonArray = responseJSON.getJSONArray(arrayKey);
 
-        return jsonArray.toString();
+    public static List<Region> getRegionList(JSONObject responseJSON) throws JSONException {
+        List<Region> regionList = new ArrayList<>();
+
+        JSONObject regionsJSON = responseJSON.getJSONObject(LoadConstants.KEY_JSON_REGIONS);
+
+        Iterator<String> keysIterator = regionsJSON.keys();
+
+        while (keysIterator.hasNext()) {
+            String key = keysIterator.next();
+
+            Region region = new Region();
+            region.setRegionId(key);
+            region.setName(regionsJSON.getString(key));
+            regionList.add(region);
+        }
+
+        return regionList;
     }
-
-    public static JSONObject getJSONObjectFromResponse(Response response) throws IOException, JSONException {
-        String responseBody = response.body().string();
-
-        return new JSONObject(responseBody);
-    }
-
 }

@@ -5,6 +5,7 @@ import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.model.Currency;
 import com.oleg.hubal.bankconverter.model.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.Organization;
+import com.oleg.hubal.bankconverter.model.Region;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,16 +37,22 @@ public class LoadUtilsTest {
     }
 
     @Test
-    public void loadUpdatedOrganizationList_LoadWithNewDate() throws IOException, JSONException {
+    public void loadUpdatedOrganizationList_CheckSize() throws IOException, JSONException {
         String currentDate = "2017-01-19T09:33:33+02:00";
         List<Organization> organizationList = LoadUtils.loadUpdatedOrganizationList(currentDate);
         assertTrue(organizationList.size() > 0);
     }
 
     @Test
-    public void loadCurrencyAbbrList_CheckSize() throws IOException, JSONException {
-        List<CurrencyAbbr> currencyAbbrList = LoadUtils.loadCurrencyAbbreviation();
+    public void loadCurrencyAbbreviationList_CheckSize() throws IOException, JSONException {
+        List<CurrencyAbbr> currencyAbbrList = LoadUtils.loadCurrencyAbbreviationList();
         assertTrue(currencyAbbrList.size() > 0);
+    }
+
+    @Test
+    public void loadRegionList_CheckSize() throws IOException, JSONException {
+        List<Region> regionList = LoadUtils.loadRegionList();
+        assertTrue(regionList.size() > 0);
     }
 
     @Test
@@ -70,7 +77,7 @@ public class LoadUtilsTest {
 
         JSONObject jsonObject = new JSONObject(responseBody);
 
-        return jsonObject.getString(LoadConstants.KEY_SOURCE_ID_JSON);
+        return jsonObject.getString(LoadConstants.KEY_JSON_SOURCE_ID);
     }
 
     @Test
@@ -113,14 +120,6 @@ public class LoadUtilsTest {
     }
 
     @Test
-    public void getArrayFromResponse_IsValidArray() throws JSONException {
-        String expectedArray = "[{\"orgType\":1,\"address\":\"ул. Батумская, 11\",\"regionId\":\"ua,7oiylpmiow8iy1smaci\",\"phone\":\"0800500809\",\"link\":\"http://organizations.finance.ua/ru/info/currency/-/7oiylpmiow8iy1smaze/cash\",\"id\":\"7oiylpmiow8iy1smaze\",\"cityId\":\"7oiylpmiow8iy1smadm\",\"oldId\":1233,\"title\":\"А-Банк\",\"branch\":false,\"currencies\":{\"EUR\":{\"ask\":\"30.7000\",\"bid\":\"29.1000\"},\"USD\":{\"ask\":\"28.7000\",\"bid\":\"27.2000\"},\"RUB\":{\"ask\":\"0.4840\",\"bid\":\"0.4520\"}}}]";
-
-        String actualArray = LoadUtils.getArrayFromResponse(mResponseJSON, LoadConstants.KEY_ORGANIZATIONS_JSON);
-        assertEquals(expectedArray ,actualArray);
-    }
-
-    @Test
     public void getOrganizationList_CheckSize() throws JSONException {
         List<Organization> organizations = LoadUtils.getOrganizationList(mResponseJSON);
 
@@ -147,7 +146,7 @@ public class LoadUtilsTest {
 
     @Test
     public void getCurrencyList_CheckFields() throws JSONException {
-        JSONArray jsonArray = mResponseJSON.getJSONArray(LoadConstants.KEY_ORGANIZATIONS_JSON);
+        JSONArray jsonArray = mResponseJSON.getJSONArray(LoadConstants.KEY_JSON_ORGANIZATIONS);
         JSONObject organizationObject = jsonArray.getJSONObject(0);
 
         List<Currency> currencyList = LoadUtils.getCurrencyList(organizationObject);
@@ -172,6 +171,20 @@ public class LoadUtilsTest {
         String actualName = currencyAbbr.getName();
 
         assertEquals(expectedAbbreviation, actualAbbreviation);
+        assertEquals(expectedName, actualName);
+    }
+
+    @Test
+    public void getRegionList_CheckFields() throws JSONException {
+        List<Region> regionList = LoadUtils.getRegionList(mResponseJSON);
+        Region region = regionList.get(0);
+
+        String expectedRegionId = "ua,7oiylpmiow8iy1smacn";
+        String actualRegionId = region.getRegionId();
+        String expectedName = "Автономная Республика Крым";
+        String actualName = region.getName();
+
+        assertEquals(expectedRegionId, actualRegionId);
         assertEquals(expectedName, actualName);
     }
 }
