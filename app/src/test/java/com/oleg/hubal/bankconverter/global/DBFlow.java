@@ -1,4 +1,4 @@
-package com.oleg.hubal.bankconverter.dbflow;
+package com.oleg.hubal.bankconverter.global;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
 

@@ -3,11 +3,14 @@ package com.oleg.hubal.bankconverter.presentation.jobs;
 import android.util.Log;
 
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
+import com.oleg.hubal.bankconverter.global.utils.ResponseParseManager;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 
 import java.util.List;
+
+import okhttp3.Response;
 
 /**
  * Created by User on 18.01.2017.
@@ -29,7 +32,11 @@ public class LoadCurrencyDataJob extends Job {
 
     @Override
     public void onRun() throws Throwable {
-        List<Organization> organizationList = LoadUtils.loadUpdatedOrganizationList("");
+        Response response = LoadUtils.getResponseFromRequest();
+        ResponseParseManager responseParseManager = new ResponseParseManager(response);
+
+        List<Organization> organizationList = responseParseManager.getOrganizationList();
+
         for (Organization organization : organizationList) {
             Log.d(TAG, "onRun: " + organization.getTitle());
         }
