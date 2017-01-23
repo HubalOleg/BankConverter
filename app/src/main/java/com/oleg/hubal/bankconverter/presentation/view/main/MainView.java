@@ -6,5 +6,10 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 
 public interface MainView extends MvpView {
     @StateStrategyType(SkipStrategy.class)
-    void launchLoadBankDataJob();
+    void launchLoadCurrencyService();
+    @StateStrategyType(SkipStrategy.class)
+    void checkInternetConnection();
+    void showOrganizationList();
+    void showProgressBar();
+    void dismissProgressBar();
 }

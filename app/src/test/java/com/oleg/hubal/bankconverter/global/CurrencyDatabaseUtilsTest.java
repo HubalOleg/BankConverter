@@ -51,7 +51,7 @@ public class CurrencyDatabaseUtilsTest {
     @Test
     public void queryOrganizationList_CheckFields() {
         CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
-        List<Organization> organizationListDB = CurrencyDatabaseUtils.queryOrganizationList();
+        List<Organization> organizationListDB = SQLite.select().from(Organization.class).queryList();
 
         Organization organization = mOrganizationList.get(0);
         Organization organizationDB = organizationListDB.get(0);
@@ -68,7 +68,7 @@ public class CurrencyDatabaseUtilsTest {
     @Test
     public void queryOrganizationList_CheckCurrencyFields() {
         CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
-        List<Organization> organizationListDB = CurrencyDatabaseUtils.queryOrganizationList();
+        List<Organization> organizationListDB =  SQLite.select().from(Organization.class).queryList();
 
         Organization organization = mOrganizationList.get(0);
         Organization organizationDB = organizationListDB.get(0);

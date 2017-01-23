@@ -25,7 +25,7 @@ task clean(type: Delete) {
 
 ext {
     // Sdk and tools
-    minSdkVersion = 16
+    minSdkVersion = 17
     targetSdkVersion = 25
     compileSdkVersion = 25
     buildToolsVersion = '25.0.2'
@@ -44,4 +44,5 @@ ext {
     hamcrestVersion = '1.3'
     jsonTestVersion = '20140107'
     dbflowVersion = '4.0.0-beta5'
+    robolectricVersion = '3.2.2';
 }

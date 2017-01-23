@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -33,7 +36,7 @@ dependencies {
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"
 
     compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
+    apt "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
 
     compile "com.arello-mobile:moxy-app-compat:$rootProject.moxyVersion"
     provided "com.arello-mobile:moxy-compiler:$rootProject.moxyVersion"
@@ -49,5 +52,5 @@ dependencies {
     testCompile "org.powermock:powermock-module-junit4:$rootProject.ext.powerMockito"
     testCompile "org.powermock:powermock-api-mockito:$rootProject.ext.powerMockito"
     testCompile "org.json:json:$rootProject.ext.jsonTestVersion"
-    testCompile "org.robolectric:robolectric:3.2.2"
+    testCompile "org.robolectric:robolectric:$rootProject.ext.robolectricVersion"
 }

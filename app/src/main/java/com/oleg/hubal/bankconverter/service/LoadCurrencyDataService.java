@@ -21,6 +21,7 @@ import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Region;
 import com.oleg.hubal.bankconverter.presentation.events.LoadResponseEvent;
+import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;
 import com.oleg.hubal.bankconverter.presentation.jobs.LoadResponseJob;
 import com.path.android.jobqueue.JobManager;
 
@@ -159,10 +160,17 @@ public class LoadCurrencyDataService extends Service {
     }
 
     private void dataSuccessfulSynchronized() {
+        EventBus.getDefault().post(new SuccessSynchronizeEvent());
+
         mNotifyBuilder.setContentText("Data successful synchronized")
                 .setOngoing(false);
         mNotificationManager.notify(NOTIFY_ID, mNotifyBuilder.build());
+
         stopSelf();
+    }
+
+    public static boolean isRunning() {
+        return isRunning;
     }
 
     @Override

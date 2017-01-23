@@ -78,22 +78,6 @@ public class CurrencyDatabaseUtils {
         }
     }
 
-    public static List<Organization> queryOrganizationList() {
-        return SQLite.select().from(Organization.class).queryList();
-    }
-
-//    public static List<CurrencyAbbr> queryCurrencyAbbrList() {
-//        return SQLite.select().from(CurrencyAbbr.class).queryList();
-//    }
-//
-//    public static List<City> queryCityList() {
-//        return SQLite.select().from(City.class).queryList();
-//    }
-//
-//    public static List<Region> queryRegionList() {
-//        return SQLite.select().from(Region.class).queryList();
-//    }
-
     public static Date queryDate() {
         Date date = SQLite.select().from(Date.class).querySingle();
         if (date == null) {

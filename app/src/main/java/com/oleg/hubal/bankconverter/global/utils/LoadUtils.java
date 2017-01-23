@@ -1,5 +1,9 @@
 package com.oleg.hubal.bankconverter.global.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.model.data.Date;
 
@@ -37,6 +41,13 @@ public class LoadUtils {
 
     public static boolean isDataUpdated(Date currentDate, Date responseDate) {
         return !currentDate.getDate().equals(responseDate.getDate());
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }
