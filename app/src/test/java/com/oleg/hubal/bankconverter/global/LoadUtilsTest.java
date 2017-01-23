@@ -2,6 +2,7 @@ package com.oleg.hubal.bankconverter.global;
 
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
+import com.oleg.hubal.bankconverter.model.data.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,30 +50,30 @@ public class LoadUtilsTest {
 
     @Test
     public void isDataUpdated_DataUpdated() {
-        String currentDate = "2017-01-19T09:33:33+02:00";
-        String responseUpdatedDate = "2017-02-19T09:33:33+02:00";
+        Date date = new Date("2017-01-19T09:33:33+02:00");
+        Date responseDate = new Date(DATE_TEST);
 
-        boolean isUpdated = LoadUtils.isDataUpdated(currentDate, responseUpdatedDate);
+        boolean isUpdated = LoadUtils.isDataUpdated(date, responseDate);
 
         assertTrue(isUpdated);
     }
 
     @Test
     public void isDataUpdated_EmptyCurrentDate() {
-        String currentDate = "";
-        String responseDate = DATE_TEST;
+        Date date = new Date("");
+        Date responseDate = new Date(DATE_TEST);
 
-        boolean isUpdated = LoadUtils.isDataUpdated(currentDate, responseDate);
+        boolean isUpdated = LoadUtils.isDataUpdated(date, responseDate);
 
         assertTrue(isUpdated);
     }
 
     @Test
     public void isDataUpdate_SameDate() {
-        String currentDate = DATE_TEST;
-        String responseDate = DATE_TEST;
+        Date date = new Date(DATE_TEST);
+        Date responseDate = new Date(DATE_TEST);
 
-        boolean isUpdated = LoadUtils.isDataUpdated(currentDate, responseDate);
+        boolean isUpdated = LoadUtils.isDataUpdated(date, responseDate);
 
         assertFalse(isUpdated);
     }

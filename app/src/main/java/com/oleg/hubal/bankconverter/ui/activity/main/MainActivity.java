@@ -9,9 +9,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
 import com.oleg.hubal.bankconverter.global.BankConverterApplication;
-import com.oleg.hubal.bankconverter.presentation.jobs.LoadCurrencyDataJob;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
+import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
 import com.path.android.jobqueue.JobManager;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView {
@@ -43,7 +43,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
 
     @Override
     public void launchLoadBankDataJob() {
-        mJobManager.addJobInBackground(new LoadCurrencyDataJob());
+        startService(LoadCurrencyDataService.getIntent(getApplicationContext()));
     }
 
     @Override

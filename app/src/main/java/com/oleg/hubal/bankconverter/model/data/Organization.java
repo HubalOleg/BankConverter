@@ -82,56 +82,28 @@ public class Organization extends BaseModel {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getRegionId() {
         return regionId;
     }
 
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
-    }
-
     public String getCityId() {
         return cityId;
-    }
-
-    public void setCityId(String cityId) {
-        this.cityId = cityId;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getLink() {
         return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
     }
 
     public List<Currency> getCurrency() {

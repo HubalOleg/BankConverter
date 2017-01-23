@@ -1,6 +1,7 @@
 package com.oleg.hubal.bankconverter.global.utils;
 
 import com.oleg.hubal.bankconverter.global.constants.LoadConstants;
+import com.oleg.hubal.bankconverter.model.data.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,8 +34,9 @@ public class LoadUtils {
 
         return new JSONObject(responseBody);
     }
-    public static boolean isDataUpdated(String currentDate, String responseDate) {
-        return !currentDate.equals(responseDate);
+
+    public static boolean isDataUpdated(Date currentDate, Date responseDate) {
+        return !currentDate.getDate().equals(responseDate.getDate());
     }
 
 }

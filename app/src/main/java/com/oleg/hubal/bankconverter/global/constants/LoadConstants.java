@@ -8,7 +8,6 @@ public class LoadConstants {
 
     public final static String CURRENCY_JSON_URL = "http://resources.finance.ua/ru/public/currency-cash.json";
 
-    public final static String KEY_JSON_DATE = "date";
     public final static String KEY_JSON_SOURCE_ID = "sourceId";
     public final static String KEY_JSON_ORGANIZATIONS = "organizations";
     public final static String KEY_JSON_CURRENCIES = "currencies";

@@ -22,8 +22,7 @@ public class Date extends BaseModel {
     public Date() {
     }
 
-    public Date(int id, String date) {
-        this.id = id;
+    public Date(String date) {
         this.date = date;
     }
 

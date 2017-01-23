@@ -1,12 +1,13 @@
-package com.oleg.hubal.bankconverter.model;
+package com.oleg.hubal.bankconverter.global;
 
-import com.oleg.hubal.bankconverter.global.DBFlow;
+import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Region;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -83,45 +84,8 @@ public class CurrencyDatabaseUtilsTest {
     }
 
     @Test
-    public void queryCurrencyAbbrList_CheckFields() {
-        List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
-        CurrencyAbbr currencyAbbr = new CurrencyAbbr("abbreviation", "name");
-        currencyAbbrList.add(currencyAbbr);
-        CurrencyDatabaseUtils.saveList(currencyAbbrList);
+    public void saveList_CheckFields() {
 
-        List<CurrencyAbbr> currencyAbbrListDB = CurrencyDatabaseUtils.queryCurrencyAbbrList();
-        CurrencyAbbr currencyAbbrDB = currencyAbbrListDB.get(0);
-
-        assertEquals(currencyAbbr.getAbbreviation(), currencyAbbrDB.getAbbreviation());
-        assertEquals(currencyAbbr.getName(), currencyAbbrDB.getName());
-    }
-
-    @Test
-    public void queryCityList_CheckFields() {
-        List<City> cityList = new ArrayList<>();
-        City city = new City("cityId", "name");
-        cityList.add(city);
-        CurrencyDatabaseUtils.saveList(cityList);
-
-        List<City> cityListDB = CurrencyDatabaseUtils.queryCityList();
-        City cityDB = cityListDB.get(0);
-
-        assertEquals(city.getName(), cityDB.getName());
-        assertEquals(city.getCityId(), cityDB.getCityId());
-    }
-
-    @Test
-    public void queryRegionList_CheckFields() {
-        List<Region> regionList = new ArrayList<>();
-        Region region = new Region("regionId", "name");
-        regionList.add(region);
-        CurrencyDatabaseUtils.saveList(regionList);
-
-        List<Region> regionListDB = CurrencyDatabaseUtils.queryRegionList();
-        Region regionDB = regionListDB.get(0);
-
-        assertEquals(region.getName(), regionDB.getName());
-        assertEquals(region.getRegionId(), regionDB.getRegionId());
     }
 
     @Test
@@ -133,5 +97,55 @@ public class CurrencyDatabaseUtilsTest {
 
         assertEquals(date.getId(), dateDB.getId());
         assertEquals(date.getDate(), dateDB.getDate());
+    }
+
+
+    @Test
+    public void queryDate_EmptyDate() {
+        Date dateDB = CurrencyDatabaseUtils.queryDate();
+
+        assertEquals(dateDB.getDate(), "");
+    }
+
+    @Test
+    public void saveCurrencyAbbrList_CheckFields() {
+        List<CurrencyAbbr> currencyAbbrList = new ArrayList<>();
+        CurrencyAbbr currencyAbbr = new CurrencyAbbr("abbreviation", "name");
+        currencyAbbrList.add(currencyAbbr);
+        CurrencyDatabaseUtils.saveList(currencyAbbrList);
+
+        List<CurrencyAbbr> currencyAbbrListDB = SQLite.select().from(CurrencyAbbr.class).queryList();
+        CurrencyAbbr currencyAbbrDB = currencyAbbrListDB.get(0);
+
+        assertEquals(currencyAbbr.getAbbreviation(), currencyAbbrDB.getAbbreviation());
+        assertEquals(currencyAbbr.getName(), currencyAbbrDB.getName());
+    }
+
+    @Test
+    public void saveCityList_CheckFields() {
+        List<City> cityList = new ArrayList<>();
+        City city = new City("cityId", "name");
+        cityList.add(city);
+        CurrencyDatabaseUtils.saveList(cityList);
+
+        List<City> cityListDB = SQLite.select().from(City.class).queryList();
+        City cityDB = cityListDB.get(0);
+
+        assertEquals(city.getName(), cityDB.getName());
+        assertEquals(city.getCityId(), cityDB.getCityId());
+    }
+
+    @Test
+    public void saveRegionList_CheckFields() {
+        List<Region> regionList = new ArrayList<>();
+        Region region = new Region("regionId", "name");
+        regionList.add(region);
+        CurrencyDatabaseUtils.saveList(regionList);
+
+        List<Region> regionListDB = SQLite.select().from(Region.class).queryList();
+        Region regionDB = regionListDB.get(0);
+
+        assertEquals(region.getName(), regionDB.getName());
+        assertEquals(region.getRegionId(), regionDB.getRegionId());
     }
 }

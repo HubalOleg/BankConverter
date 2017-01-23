@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BankConverter</string>
+    <string name="notification_load_title">Loading data</string>
+    <string name="notification_started">Preparing for loading. Check internet connection...</string>
+    <string name="notification_loading">Loading data</string>
+    <string name="notification_saving">Saving data</string>
+    <string name="notification_connection">Check internet connection!</string>
+    <string name="notification_saving_unchangeable">Saving unchangeable data</string>
+    <string name="notification_saving_organization">Saving organization</string>
 </resources>

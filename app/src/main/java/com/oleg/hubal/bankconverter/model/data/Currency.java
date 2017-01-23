@@ -21,7 +21,7 @@ public class Currency extends BaseModel {
     @Column
     @PrimaryKey
     String nameAbbreviation;
-    @Column()
+    @Column
     @PrimaryKey
     transient boolean isCurrent;
     @Column
