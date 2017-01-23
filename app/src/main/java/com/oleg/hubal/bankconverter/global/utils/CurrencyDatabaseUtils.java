@@ -52,7 +52,7 @@ public class CurrencyDatabaseUtils {
         }
     }
 
-    private static void updateCurrency(String organizationId) {
+    public static void updateCurrency(String organizationId) {
         List<Currency> currencyList = SQLite.select()
                 .from(Currency.class)
                 .where(Currency_Table.organizationId.is(organizationId))

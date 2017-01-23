@@ -58,6 +58,8 @@
             android:layout_gravity="end"
             android:layout_marginBottom="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
             tools:text="Адрес: ул. Десятичная"
             />
 

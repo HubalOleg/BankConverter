@@ -98,6 +98,20 @@ public class Organization extends BaseModel {
         return phone;
     }
 
+    public String getCityName() {
+        return SQLite.select()
+                .from(City.class)
+                .where(City_Table.cityId_id.is(cityId))
+                .querySingle().getName();
+    }
+
+    public String getRegionName() {
+        return SQLite.select()
+                .from(Region.class)
+                .where(Region_Table.regionId_id.is(regionId))
+                .querySingle().getName();
+    }
+
     public String getAddress() {
         return address;
     }

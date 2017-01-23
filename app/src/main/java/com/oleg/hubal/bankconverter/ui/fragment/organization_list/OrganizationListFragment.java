@@ -1,5 +1,7 @@
 package com.oleg.hubal.bankconverter.ui.fragment.organization_list;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,8 +33,8 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private OrganizationAdapter.OnOrganizationClickListener mOnOrganizationClickListener =
             new OrganizationAdapter.OnOrganizationClickListener() {
                 @Override
-                public void onLinkClick(String link) {
-
+                public void onLinkClick(String url) {
+                    mOrganizationListPresenter.onLinkClicked(url);
                 }
 
                 @Override
@@ -94,5 +96,11 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void showOrganizationList(List<Organization> organizationList) {
         mOrganizationAdapter.setOrganizationList(organizationList);
+    }
+
+    @Override
+    public void showSite(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 }

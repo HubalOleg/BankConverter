@@ -4,6 +4,7 @@ import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
+import com.oleg.hubal.bankconverter.model.data.Currency_Table;
 import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Region;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by User on 20.01.2017.
@@ -49,9 +51,29 @@ public class CurrencyDatabaseUtilsTest {
     }
 
     @Test
+    public void updateCurrency_IsUpdating() {
+        CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
+        CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
+
+        List<Currency> previousCurrencyList = SQLite
+                .select()
+                .from(Currency.class)
+                .where(Currency_Table.isCurrent.eq(false))
+                .queryList();
+
+        assertTrue(previousCurrencyList.size() > 0);
+    }
+
+    @Test
     public void queryOrganizationList_CheckFields() {
         CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
         List<Organization> organizationListDB = SQLite.select().from(Organization.class).queryList();
+
+        City city = new City("cityId", "cityName");
+        Region region = new Region("regionId", "regionName");
+
+        city.save();
+        region.save();
 
         Organization organization = mOrganizationList.get(0);
         Organization organizationDB = organizationListDB.get(0);
@@ -63,12 +85,14 @@ public class CurrencyDatabaseUtilsTest {
         assertEquals(organization.getRegionId(), organizationDB.getRegionId());
         assertEquals(organization.getTitle(), organizationDB.getTitle());
         assertEquals(organization.getPhone(), organizationDB.getPhone());
+        assertEquals(city.getName(), organizationDB.getCityName());
+        assertEquals(region.getName(), organizationDB.getRegionName());
     }
 
     @Test
     public void queryOrganizationList_CheckCurrencyFields() {
         CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
-        List<Organization> organizationListDB =  SQLite.select().from(Organization.class).queryList();
+        List<Organization> organizationListDB = SQLite.select().from(Organization.class).queryList();
 
         Organization organization = mOrganizationList.get(0);
         Organization organizationDB = organizationListDB.get(0);

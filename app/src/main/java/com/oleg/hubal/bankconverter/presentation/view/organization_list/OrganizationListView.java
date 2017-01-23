@@ -8,4 +8,5 @@ import java.util.List;
 public interface OrganizationListView extends MvpView {
 
     void showOrganizationList(List<Organization> organizationList);
+    void showSite(String url);
 }

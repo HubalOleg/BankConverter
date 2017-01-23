@@ -1,6 +1,8 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.organization_list;
 
 
+import android.webkit.URLUtil;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.oleg.hubal.bankconverter.model.data.Organization;
@@ -30,5 +32,11 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
 
     public void onOrganizationClicked(String organizationId) {
 
+    }
+
+    public void onLinkClicked(String url) {
+        if (URLUtil.isValidUrl(url)) {
+            getViewState().showSite(url);
+        }
     }
 }
