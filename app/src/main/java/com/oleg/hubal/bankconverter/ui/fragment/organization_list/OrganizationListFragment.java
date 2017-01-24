@@ -59,7 +59,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
 
                 @Override
                 public void onDetailClick(String organizationId) {
-
+                    mOrganizationListPresenter.onDetailClicked(organizationId);
                 }
             };
 
@@ -153,6 +153,11 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     }
 
     @Override
+    public void showDetail(String organizationId) {
+        mOrganizationTransitionListener.showDetailTransition(organizationId);
+    }
+
+    @Override
     public void showOrganizationList(List<Organization> organizationList) {
         mOrganizationAdapter.setOrganizationList(organizationList);
     }
@@ -182,5 +187,6 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         void showMapTransition(String location);
         void showSiteTransition(String url);
         void showCallTransition(String number);
+        void showDetailTransition(String organizationId);
     }
 }

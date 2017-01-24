@@ -90,4 +90,11 @@ public class MainTest {
         mMainPresenter.onDeviceOffline();
         verify(mMainView).showOrganizationList();
     }
+
+    @Test
+    public void onShowDetail() {
+        mMainPresenter.onShowDetail("id");
+
+        verify(mMainView).showDetailFragment("id");
+    }
 }

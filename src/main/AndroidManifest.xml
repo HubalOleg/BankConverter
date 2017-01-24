@@ -1,4 +1,5 @@
 <<<<<<< Original
+<<<<<<< Original
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
 <application>
@@ -11,6 +12,15 @@
 
 <application>
     <activity android:name="com.oleg.hubal.bankconverter.map.MapActivity"/>
+</application>
+</manifest>
+    >>>>>>> Added
+
+    =======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<application>
+    <activity android:name="com.oleg.hubal.bankconverter.detail_portrait.DetailActivity"/>
 </application>
 </manifest>
     >>>>>>> Added

@@ -11,14 +11,19 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
+import com.oleg.hubal.bankconverter.global.constants.Constants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
+import com.oleg.hubal.bankconverter.ui.activity.detail_portrait.DetailActivity;
+import com.oleg.hubal.bankconverter.ui.fragment.detail.DetailFragment;
 import com.oleg.hubal.bankconverter.ui.fragment.organization_list.OrganizationListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.oleg.hubal.bankconverter.R.id.fl_container_land;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationListFragment.OrganizationTransitionListener {
     public static final String TAG = "MainActivity";
@@ -100,5 +105,33 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
     public void showCallTransition(String number) {
         Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(TEL_PREFIX + number));
         startActivity(callIntent);
+    }
+
+    @Override
+    public void showDetailTransition(String organizationId) {
+        mMainPresenter.onShowDetail(organizationId);
+    }
+
+    @Override
+    public void showDetailFragment(String organizationId) {
+        if (findViewById(fl_container_land) == null) {
+            showPortraitDetail(organizationId);
+        } else {
+            showLandscapeDetail(organizationId);
+        }
+    }
+
+    private void showPortraitDetail(String organizationId) {
+        Intent intent = DetailActivity.getIntent(MainActivity.this);
+        intent.putExtra(Constants.BUNDLE_ORGANIZATION_ID, organizationId);
+        startActivity(intent);
+    }
+
+    private void showLandscapeDetail(String organizationId) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(fl_container_land, DetailFragment.newInstance(organizationId))
+                .addToBackStack("")
+                .commit();
     }
 }

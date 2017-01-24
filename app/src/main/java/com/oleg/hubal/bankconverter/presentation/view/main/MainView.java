@@ -9,7 +9,10 @@ public interface MainView extends MvpView {
     void launchLoadCurrencyService();
     @StateStrategyType(SkipStrategy.class)
     void checkInternetConnection();
+//    @StateStrategyType(SkipStrategy.class)
     void showOrganizationList();
+    @StateStrategyType(SkipStrategy.class)
+    void showDetailFragment(String organizationId);
     void showProgressBar();
     void dismissProgressBar();
 }

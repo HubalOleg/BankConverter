@@ -33,7 +33,6 @@ import static org.junit.Assert.assertTrue;
 public class CurrencyDatabaseUtilsTest {
 
     private List<Organization> mOrganizationList;
-    private List<Currency> mCurrencyList;
 
     @Rule
     public final DBFlow mDBFlow = DBFlow.create();
@@ -42,13 +41,18 @@ public class CurrencyDatabaseUtilsTest {
     @Before
     public void initCurrencyData() throws Exception {
         mOrganizationList = new ArrayList<>();
-        mCurrencyList = new ArrayList<>();
+        List<Currency> currencyList = new ArrayList<>();
 
         Currency currency = new Currency("organizationId", "nameAbbreviation", "ask", "bid");
-        mCurrencyList.add(currency);
+        currencyList.add(currency);
 
-        Organization organization = new Organization("organizationId", "title", "regionId", "cityId", "phone", "address", "link", mCurrencyList);
+        Organization organization = new Organization("organizationId", "title", "regionId", "cityId", "phone", "address", "link", currencyList);
         mOrganizationList.add(organization);
+
+        Region region = new Region("regionId", "name");
+        City city = new City("cityId", "name");
+        region.save();
+        city.save();
     }
 
     @Test
@@ -70,12 +74,6 @@ public class CurrencyDatabaseUtilsTest {
         CurrencyDatabaseUtils.saveOrganizationList(mOrganizationList);
         List<Organization> organizationListDB = SQLite.select().from(Organization.class).queryList();
 
-        City city = new City("cityId", "cityName");
-        Region region = new Region("regionId", "regionName");
-
-        city.save();
-        region.save();
-
         Organization organization = mOrganizationList.get(0);
         Organization organizationDB = organizationListDB.get(0);
 
@@ -86,8 +84,8 @@ public class CurrencyDatabaseUtilsTest {
         assertEquals(organization.getRegionId(), organizationDB.getRegionId());
         assertEquals(organization.getTitle(), organizationDB.getTitle());
         assertEquals(organization.getPhone(), organizationDB.getPhone());
-        assertEquals(city.getName(), organizationDB.getCityName());
-        assertEquals(region.getName(), organizationDB.getRegionName());
+        assertEquals("name", organizationDB.getCityName());
+        assertEquals("name", organizationDB.getRegionName());
     }
 
     @Test

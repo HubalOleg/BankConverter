@@ -63,12 +63,12 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
     public void filter(String queryKey) {
         Log.d(TAG, "filter: ");
         mOrganizationList.clear();
-        if(queryKey.isEmpty()){
+        if (queryKey.isEmpty()) {
             mOrganizationList.addAll(mListCopy);
-        } else{
+        } else {
             queryKey = queryKey.toLowerCase();
-            for(Organization item: mListCopy){
-                if(item.getTitle().toLowerCase().contains(queryKey)
+            for (Organization item : mListCopy) {
+                if (item.getTitle().toLowerCase().contains(queryKey)
                         ) {
                     mOrganizationList.add(item);
                 }
@@ -123,12 +123,20 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
             }
         };
 
+        private View.OnClickListener mOnDetailClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnOrganizationClickListener.onDetailClick(mOrganization.getId());
+            }
+        };
+
         public OrganizationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(OrganizationViewHolder.this, itemView);
             mLinkButton.setOnClickListener(mOnLinkClickListener);
             mLocationButton.setOnClickListener(mOnLocationClickListener);
             mPhoneButton.setOnClickListener(mOnPhoneClickListener);
+            mDetailButton.setOnClickListener(mOnDetailClickListener);
         }
 
         public void onBind(int position, Organization organization) {
@@ -145,8 +153,11 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
     public interface OnOrganizationClickListener {
         void onLinkClick(String url);
+
         void onLocationClick(String address, String city, String region);
+
         void onPhoneClick(String phone);
+
         void onDetailClick(String organizationId);
     }
 }

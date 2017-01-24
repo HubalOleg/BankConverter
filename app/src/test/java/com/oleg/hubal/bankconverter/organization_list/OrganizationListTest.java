@@ -16,6 +16,7 @@ import org.robolectric.annotation.Config;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -86,9 +87,37 @@ public class OrganizationListTest {
     }
 
     @Test
+    public void onPhoneClicked_MakeCall() {
+        mOrganizationListPresenter.onPhoneClicked("number");
+
+        verify(mOrganizationListView).makeCall("number");
+    }
+
+    @Test
+    public void onPhoneClicked_EmptyNumber() {
+        mOrganizationListPresenter.onPhoneClicked(null);
+
+        verify(mOrganizationListView).showError(anyString());
+    }
+
+    @Test
+    public void onDetailClicked_ShowDetail() {
+        mOrganizationListPresenter.onDetailClicked("organizationId");
+
+        verify(mOrganizationListView).showDetail("organizationId");
+    }
+
+    @Test
     public void onRefresh_RefreshData() {
         mOrganizationListPresenter.onRefresh();
 
         verify(mOrganizationListView).refreshData();
+    }
+
+    @Test
+    public void queryOrganizationList() {
+        mOrganizationListPresenter.queryOrganizationList("key");
+
+        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
     }
 }

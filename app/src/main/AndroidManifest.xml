@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.detail_portrait.DetailActivity" />
         <service
             android:name=".service.LoadCurrencyDataService"
             android:enabled="true"

@@ -49,10 +49,13 @@ public class Organization extends BaseModel {
     @SerializedName("link")
     @Expose
     String link;
+    @Column
+    String regionName;
+    @Column
+    String cityName;
     @ColumnIgnore
     transient List<Currency> currency;
-
-
+    
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "currency")
     public List<Currency> oneToManyCurrencies() {
         if (currency == null || currency.isEmpty()) {
@@ -98,18 +101,20 @@ public class Organization extends BaseModel {
         return phone;
     }
 
-    public String getCityName() {
-        return SQLite.select()
-                .from(City.class)
-                .where(City_Table.cityId_id.is(cityId))
-                .querySingle().getName();
+    public String getRegionName() {
+        return regionName;
     }
 
-    public String getRegionName() {
-        return SQLite.select()
-                .from(Region.class)
-                .where(Region_Table.regionId_id.is(regionId))
-                .querySingle().getName();
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public String getAddress() {

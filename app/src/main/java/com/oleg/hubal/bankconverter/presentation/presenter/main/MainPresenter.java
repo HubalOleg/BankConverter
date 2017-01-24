@@ -57,6 +57,10 @@ public class MainPresenter extends MvpPresenter<MainView> {
         getViewState().launchLoadCurrencyService();
     }
 
+    public void onShowDetail(String organizationId) {
+        getViewState().showDetailFragment(organizationId);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void successSynchronizeEvent(SuccessSynchronizeEvent successSynchronizeEvent) {
         getViewState().dismissProgressBar();

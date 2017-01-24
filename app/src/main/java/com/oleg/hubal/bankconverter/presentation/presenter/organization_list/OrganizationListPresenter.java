@@ -44,14 +44,18 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         queryKey = queryKey.toLowerCase();
 
         for (Organization organization : mOrganizationList) {
-            if (organization.getTitle().toLowerCase().contains(queryKey)
-                    || organization.getCityName().toLowerCase().contains(queryKey)
-                    || organization.getRegionName().toLowerCase().contains(queryKey)) {
+            if (isOrganizationContainKey(organization, queryKey)) {
                 mQueryList.add(organization);
             }
         }
 
         getViewState().showOrganizationList(mQueryList);
+    }
+
+    private boolean isOrganizationContainKey(Organization organization, String key) {
+        return (organization.getTitle().toLowerCase().contains(key)
+                || organization.getCityName().toLowerCase().contains(key)
+                || organization.getRegionName().toLowerCase().contains(key));
     }
 
     public void onSearchClosed() {
@@ -75,5 +79,9 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         } else {
             getViewState().makeCall(phone);
         }
+    }
+
+    public void onDetailClicked(String organizationId) {
+        getViewState().showDetail(organizationId);
     }
 }

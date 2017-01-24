@@ -7,4 +7,5 @@ package com.oleg.hubal.bankconverter.global.constants;
 public class Constants {
 
     public static final String BUNDLE_LOCATION = "location";
+    public static final String BUNDLE_ORGANIZATION_ID = "organizationId";
 }

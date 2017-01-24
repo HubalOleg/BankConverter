@@ -1,11 +1,15 @@
 package com.oleg.hubal.bankconverter.global.utils;
 
 import com.oleg.hubal.bankconverter.model.CurrencyDatabase;
+import com.oleg.hubal.bankconverter.model.data.City;
+import com.oleg.hubal.bankconverter.model.data.City_Table;
 import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.Currency_Table;
 import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Organization_Table;
+import com.oleg.hubal.bankconverter.model.data.Region;
+import com.oleg.hubal.bankconverter.model.data.Region_Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -27,16 +31,32 @@ public class CurrencyDatabaseUtils {
                             @Override
                             public void processModel(Organization organization, DatabaseWrapper wrapper) {
                                 String organizationId = organization.getId();
-
                                 if (isOrganizationExist(organizationId)) {
                                     updateCurrency(organizationId);
                                 } else {
-                                    organization.save();
+                                    setDataAndSave(organization);
                                 }
                             }
                         }).addAll(organizationList).build())
                 .build()
                 .executeSync();
+    }
+
+    private static void setDataAndSave(Organization organization) {
+        String regionName = SQLite.select().from(Region.class)
+                .where(Region_Table.regionId.is(organization.getRegionId()))
+                .querySingle()
+                .getName();
+
+        String cityName = SQLite.select().from(City.class)
+                .where(City_Table.cityId.is(organization.getCityId()))
+                .querySingle()
+                .getName();
+
+        organization.setRegionName(regionName);
+        organization.setCityName(cityName);
+
+        organization.save();
     }
 
     private static boolean isOrganizationExist(String organizationId) {

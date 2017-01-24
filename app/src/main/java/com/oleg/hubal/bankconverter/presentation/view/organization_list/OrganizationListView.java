@@ -21,4 +21,6 @@ public interface OrganizationListView extends MvpView {
     void makeCall(String number);
     @StateStrategyType(SkipStrategy.class)
     void refreshData();
+    @StateStrategyType(SkipStrategy.class)
+    void showDetail(String organizationId);
 }
