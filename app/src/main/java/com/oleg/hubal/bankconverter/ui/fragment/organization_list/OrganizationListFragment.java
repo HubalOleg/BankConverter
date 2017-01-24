@@ -1,7 +1,6 @@
 package com.oleg.hubal.bankconverter.ui.fragment.organization_list;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +15,7 @@ import com.oleg.hubal.bankconverter.adapter.OrganizationAdapter;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
+import com.oleg.hubal.bankconverter.ui.activity.main.MainActivity;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     public static final String TAG = "OrganizationListFragment";
 
     private OrganizationAdapter mOrganizationAdapter;
+    private OrganizationTransitionListener mOrganizationTransitionListener;
 
     @BindView(R.id.rv_organization_list)
     RecyclerView mOrganizationListRecycler;
@@ -38,8 +39,8 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
                 }
 
                 @Override
-                public void onLocationClick(String location) {
-
+                public void onLocationClick(Organization organization) {
+                    mOrganizationListPresenter.onLocationClicked(organization);
                 }
 
                 @Override
@@ -49,7 +50,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
 
                 @Override
                 public void onDetailClick(String organizationId) {
-                    mOrganizationListPresenter.onOrganizationClicked(organizationId);
+
                 }
             };
 
@@ -68,6 +69,12 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mOrganizationTransitionListener = (MainActivity) context;
     }
 
     @Override
@@ -100,7 +107,16 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
 
     @Override
     public void showSite(String url) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        startActivity(browserIntent);
+        mOrganizationTransitionListener.showSiteTransition(url);
+    }
+
+    @Override
+    public void showMap(String location) {
+        mOrganizationTransitionListener.showMapTransition(location);
+    }
+
+    public interface OrganizationTransitionListener {
+        void showMapTransition(String location);
+        void showSiteTransition(String url);
     }
 }

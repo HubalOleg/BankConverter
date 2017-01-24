@@ -1,6 +1,16 @@
+<<<<<<< Original
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application>
-        <activity android:name="com.oleg.hubal.bankconverter.main.MainActivity"/>
-    </application>
+<application>
+    <activity android:name="com.oleg.hubal.bankconverter.main.MainActivity"/>
+</application>
 </manifest>
+
+    =======
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+<application>
+    <activity android:name="com.oleg.hubal.bankconverter.map.MapActivity"/>
+</application>
+</manifest>
+    >>>>>>> Added

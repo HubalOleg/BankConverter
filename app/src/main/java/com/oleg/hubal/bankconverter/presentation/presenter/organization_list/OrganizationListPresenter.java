@@ -14,6 +14,9 @@ import java.util.List;
 @InjectViewState
 public class OrganizationListPresenter extends MvpPresenter<OrganizationListView> {
 
+    private static final String COMA = ", ";
+    private static final String CITY = "город ";
+
     private List<Organization> mOrganizationList;
 
     @Override
@@ -27,16 +30,18 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         mOrganizationList = SQLite.select().from(Organization.class).queryList();
 
         getViewState().showOrganizationList(mOrganizationList);
-
-    }
-
-    public void onOrganizationClicked(String organizationId) {
-
     }
 
     public void onLinkClicked(String url) {
         if (URLUtil.isValidUrl(url)) {
             getViewState().showSite(url);
         }
+    }
+
+    public void onLocationClicked(Organization organization) {
+        String locationBuilder = organization.getAddress() + COMA +
+                CITY + organization.getCityName() + COMA +
+                organization.getRegionName();
+        getViewState().showMap(locationBuilder);
     }
 }

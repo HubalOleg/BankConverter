@@ -79,14 +79,25 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         @BindView(R.id.btn_detail)
         ImageButton mDetailButton;
 
+        private View.OnClickListener mOnLinkClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnOrganizationClickListener.onLinkClick(mOrganization.getLink());
+            }
+        };
 
-
-
+        private View.OnClickListener mOnLocationClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnOrganizationClickListener.onLocationClick(mOrganization);
+            }
+        };
 
         public OrganizationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(OrganizationViewHolder.this, itemView);
-//            mLinkButton.setOnClickListener();
+            mLinkButton.setOnClickListener(mOnLinkClickListener);
+            mLocationButton.setOnClickListener(mOnLocationClickListener);
         }
 
         public void onBind(int position, Organization organization) {
@@ -103,7 +114,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
     public interface OnOrganizationClickListener {
         void onLinkClick(String url);
-        void onLocationClick(String location);
+        void onLocationClick(Organization organization);
         void onPhoneClick(String phone);
         void onDetailClick(String organizationId);
     }

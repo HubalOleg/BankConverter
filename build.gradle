@@ -32,6 +32,8 @@ ext {
 
     // App dependencies
     supportLibraryVersion = '25.1.0'
+    playServicesVersion = '10.0.1'
+    multidexVersion = '1.0.1'
     butterKnifeVersion = '8.4.0'
     eventBusVersion = '3.0.0'
     jobQueueVersion = '1.1.2'

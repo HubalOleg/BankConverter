@@ -52,4 +52,19 @@ public class OrganizationListTest {
 
         verify(mOrganizationListView, times(2)).showOrganizationList(anyListOf(Organization.class));
     }
+
+    @Test
+    public void onLinkClicked_ShowSite() {
+        mOrganizationListPresenter.onLinkClicked("https://github.com");
+
+        verify(mOrganizationListView).showSite("https://github.com");
+    }
+
+    @Test
+    public void onLinkClicked_InvalidUrl() {
+        mOrganizationListPresenter.onLinkClicked("invalid_url");
+
+        verify(mOrganizationListView, times(0)).showSite("https://github.com");
+    }
+
 }

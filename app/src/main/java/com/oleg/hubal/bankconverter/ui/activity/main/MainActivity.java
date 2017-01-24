@@ -2,6 +2,7 @@ package com.oleg.hubal.bankconverter.ui.activity.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -10,16 +11,18 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
+import com.oleg.hubal.bankconverter.global.constants.Constants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
+import com.oleg.hubal.bankconverter.ui.activity.map.MapActivity;
 import com.oleg.hubal.bankconverter.ui.fragment.organization_list.OrganizationListFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends MvpAppCompatActivity implements MainView {
+public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationListFragment.OrganizationTransitionListener {
     public static final String TAG = "MainActivity";
 
     @BindView(R.id.pb_load_progress)
@@ -73,4 +76,18 @@ public class MainActivity extends MvpAppCompatActivity implements MainView {
             mMainPresenter.onDeviceOffline();
         }
     }
+
+    @Override
+    public void showMapTransition(String location) {
+        Intent mapIntent = MapActivity.getIntent(MainActivity.this);
+        mapIntent.putExtra(Constants.BUNDLE_LOCATION, location);
+        startActivity(mapIntent);
+    }
+
+    @Override
+    public void showSiteTransition(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
+    }
+
 }
