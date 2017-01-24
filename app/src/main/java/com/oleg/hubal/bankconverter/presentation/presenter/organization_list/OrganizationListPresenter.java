@@ -10,6 +10,7 @@ import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @InjectViewState
@@ -34,9 +35,23 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void queryOrganizationList(String queryKey) {
-//        List<Organization> queryOrganizationList =SQLite.select()
-//                .from(Organization.class)
-//                .where(Organization_Table.)
+        List<Organization> mQueryList = new ArrayList<>();
+
+        queryKey = queryKey.toLowerCase();
+
+        for (Organization organization : mOrganizationList) {
+            if (organization.getTitle().toLowerCase().contains(queryKey)
+                    || organization.getCityName().toLowerCase().contains(queryKey)
+                    || organization.getRegionName().toLowerCase().contains(queryKey)) {
+                mQueryList.add(organization);
+            }
+        }
+
+        getViewState().showOrganizationList(mQueryList);
+    }
+
+    public void onSearchClosed() {
+        getViewState().showOrganizationList(mOrganizationList);
     }
 
     public void onLinkClicked(String url) {

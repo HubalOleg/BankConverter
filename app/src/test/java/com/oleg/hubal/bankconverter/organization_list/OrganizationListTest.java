@@ -14,8 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.List;
-
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,8 +29,6 @@ public class OrganizationListTest {
 
     @Mock
     private OrganizationListView mOrganizationListView;
-    @Mock
-    private List<Organization> mOrganizationList;
 
     private OrganizationListPresenter mOrganizationListPresenter;
 
@@ -72,6 +69,20 @@ public class OrganizationListTest {
         mOrganizationListPresenter.onLocationClicked("address", "city", "region");
 
         verify(mOrganizationListView).showMap("address, город city, region");
+    }
+
+    @Test
+    public void queryOrganizationList_ShowList() {
+        mOrganizationListPresenter.queryOrganizationList("");
+
+        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
+    }
+
+    @Test
+    public void onSearchClosed_ShowList() {
+        mOrganizationListPresenter.onSearchClosed();
+
+        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
     }
 
 }

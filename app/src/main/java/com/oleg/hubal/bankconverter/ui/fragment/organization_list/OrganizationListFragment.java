@@ -63,7 +63,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
-
+            mOrganizationListPresenter.queryOrganizationList(query);
             return true;
         }
 
@@ -76,7 +76,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SearchView.OnCloseListener mOnCloseListener = new SearchView.OnCloseListener() {
         @Override
         public boolean onClose() {
-
+            mOrganizationListPresenter.onSearchClosed();
             return false;
         }
     };

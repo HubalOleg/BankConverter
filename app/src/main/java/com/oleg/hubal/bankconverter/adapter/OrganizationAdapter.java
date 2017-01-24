@@ -2,6 +2,7 @@ package com.oleg.hubal.bankconverter.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.oleg.hubal.bankconverter.ui.activity.main.MainActivity.TAG;
+
 /**
  * Created by User on 23.01.2017.
  */
@@ -26,6 +29,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
     private Context mContext;
     private OnOrganizationClickListener mOnOrganizationClickListener;
     private List<Organization> mOrganizationList;
+    private List<Organization> mListCopy;
 
     public OrganizationAdapter(Context context, OnOrganizationClickListener onOrganizationClickListener) {
         mContext = context;
@@ -52,6 +56,24 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
     public void setOrganizationList(List<Organization> organizationList) {
         mOrganizationList = organizationList;
+        mListCopy = organizationList;
+        notifyDataSetChanged();
+    }
+
+    public void filter(String queryKey) {
+        Log.d(TAG, "filter: ");
+        mOrganizationList.clear();
+        if(queryKey.isEmpty()){
+            mOrganizationList.addAll(mListCopy);
+        } else{
+            queryKey = queryKey.toLowerCase();
+            for(Organization item: mListCopy){
+                if(item.getTitle().toLowerCase().contains(queryKey)
+                        ) {
+                    mOrganizationList.add(item);
+                }
+            }
+        }
         notifyDataSetChanged();
     }
 
