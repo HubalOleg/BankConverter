@@ -8,4 +8,7 @@ public class Constants {
 
     public static final String BUNDLE_LOCATION = "location";
     public static final String BUNDLE_ORGANIZATION_ID = "organizationId";
+
+    public static final String GEO_PREFIX = "geo:0,0?q=";
+    public static final String TEL_PREFIX = "tel:";
 }

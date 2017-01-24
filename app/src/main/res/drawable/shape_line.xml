@@ -5,7 +5,7 @@
             <solid android:color="@color/light_primary_color" />
             <stroke
                 android:width="4dp"
-                android:color="#E91E63" />
+                android:color="@color/pink" />
         </shape>
     </item>
 </layer-list>

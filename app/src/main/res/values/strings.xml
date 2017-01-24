@@ -18,4 +18,12 @@
 
     <!--MENU-->
     <string name="menu_search">Search</string>
+
+    <!--DETAIL-->
+    <string name="detail_site_title">Официальный сайт банка:</string>
+    <string name="title_curr_name">Название валюты</string>
+    <string name="detail_address">Адрес: %1$s</string>
+    <string name="detail_city">Город: %1$s</string>
+    <string name="detail_region">Регион: %1$s</string>
+    <string name="detail_phone">Телефон: %1$s</string>
 </resources>

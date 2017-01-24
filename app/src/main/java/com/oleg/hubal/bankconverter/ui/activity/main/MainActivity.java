@@ -12,6 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
 import com.oleg.hubal.bankconverter.global.constants.Constants;
+import com.oleg.hubal.bankconverter.global.listener.OrganizationTransitionListener;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
@@ -24,11 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.oleg.hubal.bankconverter.R.id.fl_container_land;
+import static com.oleg.hubal.bankconverter.global.constants.Constants.GEO_PREFIX;
 
-public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationListFragment.OrganizationTransitionListener {
+public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationTransitionListener {
     public static final String TAG = "MainActivity";
-    public static final String GEO_PREFIX = "geo:0,0?q=";
-    public static final String TEL_PREFIX = "tel:";
 
     @BindView(R.id.pb_load_progress)
     ProgressBar mLoadProgressBar;
@@ -91,7 +91,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
 
     @Override
     public void showMapTransition(String location) {
-        Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse(GEO_PREFIX + location));
+        Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse(Constants.GEO_PREFIX + location));
         startActivity(searchAddress);
     }
 
@@ -103,7 +103,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
 
     @Override
     public void showCallTransition(String number) {
-        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(TEL_PREFIX + number));
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(Constants.TEL_PREFIX + number));
         startActivity(callIntent);
     }
 

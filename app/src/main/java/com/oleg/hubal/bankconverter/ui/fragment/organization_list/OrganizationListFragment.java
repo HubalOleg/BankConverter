@@ -19,6 +19,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.oleg.hubal.bankconverter.R;
 import com.oleg.hubal.bankconverter.adapter.OrganizationAdapter;
+import com.oleg.hubal.bankconverter.global.listener.OrganizationTransitionListener;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
@@ -180,13 +181,5 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-    }
-
-    public interface OrganizationTransitionListener {
-        void onRefreshData();
-        void showMapTransition(String location);
-        void showSiteTransition(String url);
-        void showCallTransition(String number);
-        void showDetailTransition(String organizationId);
     }
 }
