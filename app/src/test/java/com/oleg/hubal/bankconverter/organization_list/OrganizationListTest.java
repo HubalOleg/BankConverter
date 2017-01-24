@@ -85,4 +85,10 @@ public class OrganizationListTest {
         verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
     }
 
+    @Test
+    public void onRefresh_RefreshData() {
+        mOrganizationListPresenter.onRefresh();
+
+        verify(mOrganizationListView).refreshData();
+    }
 }

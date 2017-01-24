@@ -111,7 +111,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/card_menu_height"
                 android:layout_weight="1"
-                android:background="@color/light_primary_color"
+                android:background="@drawable/shape_line"
                 android:foreground="?android:attr/selectableItemBackground"
                 android:padding="17dp"
                 android:scaleType="fitCenter"

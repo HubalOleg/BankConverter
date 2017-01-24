@@ -3,6 +3,7 @@ package com.oleg.hubal.bankconverter.ui.fragment.organization_list;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -34,6 +35,8 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private OrganizationAdapter mOrganizationAdapter;
     private OrganizationTransitionListener mOrganizationTransitionListener;
 
+    @BindView(R.id.srl_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.rv_organization_list)
     RecyclerView mOrganizationListRecycler;
 
@@ -81,6 +84,13 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         }
     };
 
+    private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            mOrganizationListPresenter.onRefresh();
+        }
+    };
+
     @InjectPresenter
     OrganizationListPresenter mOrganizationListPresenter;
 
@@ -111,6 +121,8 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         View view = inflater.inflate(R.layout.fragment_bank_list, container, false);
         ButterKnife.bind(OrganizationListFragment.this, view);
 
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+
         mOrganizationListRecycler.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -132,6 +144,12 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         searchView.setOnQueryTextListener(mOnQueryTextListener);
         searchView.setOnCloseListener(mOnCloseListener);
 
+    }
+
+    @Override
+    public void refreshData() {
+        mOrganizationTransitionListener.onRefreshData();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -160,6 +178,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     }
 
     public interface OrganizationTransitionListener {
+        void onRefreshData();
         void showMapTransition(String location);
         void showSiteTransition(String url);
         void showCallTransition(String number);

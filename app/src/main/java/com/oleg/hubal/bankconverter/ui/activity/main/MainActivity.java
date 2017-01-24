@@ -78,6 +78,13 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
     }
 
     @Override
+    public void onRefreshData() {
+        if (LoadUtils.isOnline(MainActivity.this)) {
+            mMainPresenter.onDeviceOnline();
+        }
+    }
+
+    @Override
     public void showMapTransition(String location) {
         Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse(GEO_PREFIX + location));
         startActivity(searchAddress);
@@ -94,5 +101,4 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
         Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(TEL_PREFIX + number));
         startActivity(callIntent);
     }
-
 }

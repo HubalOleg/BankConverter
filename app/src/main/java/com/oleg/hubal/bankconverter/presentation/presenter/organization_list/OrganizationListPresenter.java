@@ -28,6 +28,10 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         loadOrganizationList();
     }
 
+    public void onRefresh() {
+        getViewState().refreshData();
+    }
+
     public void loadOrganizationList() {
         mOrganizationList = SQLite.select().from(Organization.class).queryList();
 
