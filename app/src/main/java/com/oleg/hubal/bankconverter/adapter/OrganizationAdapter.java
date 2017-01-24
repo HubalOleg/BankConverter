@@ -89,7 +89,15 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         private View.OnClickListener mOnLocationClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnOrganizationClickListener.onLocationClick(mOrganization);
+                mOnOrganizationClickListener.onLocationClick(mOrganization.getAddress(),
+                        mOrganization.getCityName(), mOrganization.getRegionName());
+            }
+        };
+
+        private View.OnClickListener mOnPhoneClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mOnOrganizationClickListener.onPhoneClick(mOrganization.getPhone());
             }
         };
 
@@ -98,6 +106,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
             ButterKnife.bind(OrganizationViewHolder.this, itemView);
             mLinkButton.setOnClickListener(mOnLinkClickListener);
             mLocationButton.setOnClickListener(mOnLocationClickListener);
+            mPhoneButton.setOnClickListener(mOnPhoneClickListener);
         }
 
         public void onBind(int position, Organization organization) {
@@ -114,7 +123,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
     public interface OnOrganizationClickListener {
         void onLinkClick(String url);
-        void onLocationClick(Organization organization);
+        void onLocationClick(String address, String city, String region);
         void onPhoneClick(String phone);
         void onDetailClick(String organizationId);
     }

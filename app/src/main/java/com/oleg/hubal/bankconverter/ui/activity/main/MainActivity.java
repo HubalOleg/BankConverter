@@ -11,12 +11,10 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
-import com.oleg.hubal.bankconverter.global.constants.Constants;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
-import com.oleg.hubal.bankconverter.ui.activity.map.MapActivity;
 import com.oleg.hubal.bankconverter.ui.fragment.organization_list.OrganizationListFragment;
 
 import butterknife.BindView;
@@ -24,6 +22,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationListFragment.OrganizationTransitionListener {
     public static final String TAG = "MainActivity";
+    public static final String GEO_PREFIX = "geo:0,0?q=";
+    public static final String TEL_PREFIX = "tel:";
 
     @BindView(R.id.pb_load_progress)
     ProgressBar mLoadProgressBar;
@@ -79,15 +79,20 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
 
     @Override
     public void showMapTransition(String location) {
-        Intent mapIntent = MapActivity.getIntent(MainActivity.this);
-        mapIntent.putExtra(Constants.BUNDLE_LOCATION, location);
-        startActivity(mapIntent);
+        Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse(GEO_PREFIX + location));
+        startActivity(searchAddress);
     }
 
     @Override
     public void showSiteTransition(String url) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
+    }
+
+    @Override
+    public void showCallTransition(String number) {
+        Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.parse(TEL_PREFIX + number));
+        startActivity(callIntent);
     }
 
 }

@@ -14,4 +14,8 @@
     <!--ORGANIZATION LIST-->
     <string name="card_phone">Тел.: %1$s</string>
     <string name="card_address">Адрес : %1$s</string>
+
+
+    <!--MENU-->
+    <string name="menu_search">Search</string>
 </resources>

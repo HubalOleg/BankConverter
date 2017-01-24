@@ -1,5 +1,6 @@
 package com.oleg.hubal.bankconverter.global;
 
+import com.oleg.hubal.bankconverter.DBFlow;
 import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Currency;

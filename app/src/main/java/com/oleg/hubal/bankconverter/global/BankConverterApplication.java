@@ -58,8 +58,8 @@ public class BankConverterApplication extends Application {
                     }
                 })
                 .minConsumerCount(1)
-                .maxConsumerCount(20)
-                .loadFactor(3)
+                .maxConsumerCount(1)
+                .loadFactor(1)
                 .consumerKeepAlive(120)
                 .build();
         mJobManager = new JobManager(BankConverterApplication.this, configuration);

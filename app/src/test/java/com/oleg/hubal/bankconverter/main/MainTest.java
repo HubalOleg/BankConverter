@@ -1,6 +1,6 @@
 package com.oleg.hubal.bankconverter.main;
 
-import com.oleg.hubal.bankconverter.global.DBFlow;
+import com.oleg.hubal.bankconverter.DBFlow;
 import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;

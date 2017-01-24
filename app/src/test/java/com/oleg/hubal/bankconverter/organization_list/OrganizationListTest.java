@@ -1,6 +1,6 @@
 package com.oleg.hubal.bankconverter.organization_list;
 
-import com.oleg.hubal.bankconverter.global.DBFlow;
+import com.oleg.hubal.bankconverter.DBFlow;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
@@ -65,6 +65,13 @@ public class OrganizationListTest {
         mOrganizationListPresenter.onLinkClicked("invalid_url");
 
         verify(mOrganizationListView, times(0)).showSite("https://github.com");
+    }
+
+    @Test
+    public void onLocationClicked() {
+        mOrganizationListPresenter.onLocationClicked("address", "city", "region");
+
+        verify(mOrganizationListView).showMap("address, город city, region");
     }
 
 }

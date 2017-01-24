@@ -15,4 +15,8 @@ public interface OrganizationListView extends MvpView {
     void showSite(String url);
     @StateStrategyType(SkipStrategy.class)
     void showMap(String location);
+    @StateStrategyType(SkipStrategy.class)
+    void showError(String error);
+    @StateStrategyType(SkipStrategy.class)
+    void makeCall(String number);
 }

@@ -11,7 +11,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -35,9 +34,6 @@ dependencies {
     compile "com.path:android-priority-jobqueue:$rootProject.jobQueueVersion"
     compile "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"
-
-    compile "com.google.android.gms:play-services:$rootProject.playServicesVersion"
-    compile "com.android.support:multidex:$rootProject.multidexVersion"
 
     compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"
