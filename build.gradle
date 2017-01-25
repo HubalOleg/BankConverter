@@ -40,6 +40,7 @@ ext {
     moxyVersion = '1.4.5'
     okHttpVersion = '3.5.0'
     gsonVersion = '2.6.2'
+    floatingActionButtonVersion = '1.6.4'
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
     powerMockito = '1.6.2'

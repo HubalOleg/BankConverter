@@ -53,8 +53,10 @@ public class MainPresenter extends MvpPresenter<MainView> {
     }
 
     private void startLoading() {
-        getViewState().showProgressBar();
-        getViewState().launchLoadCurrencyService();
+        if (!LoadCurrencyDataService.isRunning()) {
+            getViewState().showProgressBar();
+            getViewState().launchLoadCurrencyService();
+        }
     }
 
     public void onShowDetail(String organizationId) {

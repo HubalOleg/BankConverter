@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.github.clans.fab.FloatingActionButton;
 import com.oleg.hubal.bankconverter.R;
 import com.oleg.hubal.bankconverter.adapter.CurrencyAdapter;
 import com.oleg.hubal.bankconverter.global.constants.Constants;
@@ -46,9 +48,36 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     TextView mPhoneTextView;
     @BindView(R.id.rv_currency_recycler)
     RecyclerView mCurrencyRecyclerView;
+    @BindView(R.id.fab_map)
+    FloatingActionButton mMapFloatingButton;
+    @BindView(R.id.fab_site)
+    FloatingActionButton mSiteFloatingButton;
+    @BindView(R.id.fab_phone)
+    FloatingActionButton mPhoneFloatingButton;
 
     @InjectPresenter
     DetailPresenter mDetailPresenter;
+
+    private View.OnClickListener mOnMapClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mDetailPresenter.onFloatingMapClick();
+        }
+    };
+
+    private View.OnClickListener mOnSiteClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mDetailPresenter.onFloatingSiteClick();
+        }
+    };
+
+    private View.OnClickListener mOnPhoneClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mDetailPresenter.onFloatingPhoneClick();
+        }
+    };
 
     public static DetailFragment newInstance(String organizationId) {
         DetailFragment fragment = new DetailFragment();
@@ -72,6 +101,10 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(DetailFragment.this, view);
+
+        mMapFloatingButton.setOnClickListener(mOnMapClickListener);
+        mSiteFloatingButton.setOnClickListener(mOnSiteClickListener);
+        mPhoneFloatingButton.setOnClickListener(mOnPhoneClickListener);
 
         mCurrencyRecyclerView.setHasFixedSize(true);
 
@@ -100,5 +133,25 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     @Override
     public void showCurrencyData(List<CurrencyUI> currencyUIList) {
         mCurrencyAdapter.setCurrencyUIList(currencyUIList);
+    }
+
+    @Override
+    public void makeCall(String number) {
+        mOrganizationTransitionListener.showCallTransition(number);
+    }
+
+    @Override
+    public void showSite(String url) {
+        mOrganizationTransitionListener.showSiteTransition(url);
+    }
+
+    @Override
+    public void showMap(String location) {
+        mOrganizationTransitionListener.showMapTransition(location);
+    }
+
+    @Override
+    public void showError(String error) {
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 }

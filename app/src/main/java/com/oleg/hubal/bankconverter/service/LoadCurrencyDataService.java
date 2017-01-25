@@ -57,6 +57,7 @@ public class LoadCurrencyDataService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        isRunning = true;
 
         BankConverterApplication application = (BankConverterApplication) getApplication();
         mJobManager = application.getJobManager();
@@ -68,7 +69,6 @@ public class LoadCurrencyDataService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(NOTIFY_ID, mNotifyBuilder.build());
         EventBus.getDefault().register(LoadCurrencyDataService.this);
-        isRunning = true;
 
         try {
             loadResponse();
@@ -162,7 +162,7 @@ public class LoadCurrencyDataService extends Service {
     private void dataSuccessfulSynchronized() {
         EventBus.getDefault().post(new SuccessSynchronizeEvent());
 
-        mNotifyBuilder.setContentText("Data successful synchronized")
+        mNotifyBuilder.setContentText(getString(R.string.notification_successful))
                 .setOngoing(false);
         mNotificationManager.notify(NOTIFY_ID, mNotifyBuilder.build());
 
@@ -177,8 +177,8 @@ public class LoadCurrencyDataService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
-        isRunning = false;
         EventBus.getDefault().unregister(LoadCurrencyDataService.this);
+        isRunning = false;
     }
 
     @Nullable

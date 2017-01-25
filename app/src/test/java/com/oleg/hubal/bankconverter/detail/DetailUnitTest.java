@@ -1,6 +1,8 @@
 package com.oleg.hubal.bankconverter.detail;
 
 import com.oleg.hubal.bankconverter.DBFlow;
+import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
+import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
@@ -17,9 +19,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -44,19 +49,58 @@ public class DetailUnitTest {
 
         mDetailPresenter = new DetailPresenter();
         mDetailPresenter.attachView(mDetailView);
+
+        Organization organization = new Organization("any_id", "", "", "", "number", "address", "https://github.com", null);
+        organization.setCityName("cityName");
+        organization.setRegionName("regionName");
+        organization.save();
+        mDetailPresenter.onLoadOrganization("any_id");
     }
 
     @Test
     public void loadOrganization_ShowOrganization() {
         mDetailPresenter.onLoadOrganization("");
 
-        verify(mDetailView).showOrganizationData(any(Organization.class));
+        verify(mDetailView, times(2)).showOrganizationData(any(Organization.class));
     }
 
     @Test
     public void loadCurrency_ShowCurrencyUIList() {
-        mDetailPresenter.onLoadCurrency("");
+        List<Currency> currencyList = new ArrayList<>();
+        Currency currency = new Currency("id", "", "1.1", "1.1");
+        currency.setCurrent(true);
+        Currency previousCurrency = new Currency("id", "", "1.1", "1.1");
+        previousCurrency.setCurrent(false);
+        currencyList.add(currency);
+        currencyList.add(previousCurrency);
+        List<Organization> organizationList = new ArrayList<>();
+        Organization organization = new Organization("id", "", "", "", "", "", "", currencyList);
+        organizationList.add(organization);
+        CurrencyDatabaseUtils.saveOrganizationList(organizationList);
+
+        mDetailPresenter.onLoadCurrency("id");
 
         verify(mDetailView).showCurrencyData(anyListOf(CurrencyUI.class));
+    }
+
+    @Test
+    public void onFloatingSiteClick_ShowSite() {
+        mDetailPresenter.onFloatingSiteClick();
+
+        verify(mDetailView).showSite("https://github.com");
+    }
+
+    @Test
+    public void onFloatingMapClick() {
+        mDetailPresenter.onFloatingMapClick();
+
+        verify(mDetailView).showMap("address, город cityName, regionName");
+    }
+
+    @Test
+    public void onFloatingMapClick_MakeCall() {
+        mDetailPresenter.onFloatingPhoneClick();
+
+        verify(mDetailView).makeCall("number");
     }
 }

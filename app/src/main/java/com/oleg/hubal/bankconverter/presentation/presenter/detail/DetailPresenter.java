@@ -1,8 +1,11 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.detail;
 
 
+import android.webkit.URLUtil;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.oleg.hubal.bankconverter.global.constants.ErrorConstants;
 import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr_Table;
@@ -19,13 +22,18 @@ import java.util.List;
 @InjectViewState
 public class DetailPresenter extends MvpPresenter<DetailView> {
 
+    private static final String COMA = ", ";
+    private static final String CITY = "город ";
+
+    private Organization mOrganization;
+
     public void onLoadOrganization(String organizationId) {
-        Organization organization = SQLite.select()
+        mOrganization = SQLite.select()
                 .from(Organization.class)
                 .where(Organization_Table.id.is(organizationId))
                 .querySingle();
 
-        getViewState().showOrganizationData(organization);
+        getViewState().showOrganizationData(mOrganization);
     }
 
     public void onLoadCurrency(String organizationId) {
@@ -91,6 +99,26 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
                 .and(Currency_Table.nameAbbreviation.is(currency.getNameAbbreviation()))
                 .and(Currency_Table.isCurrent.is(false))
                 .querySingle();
+    }
+
+    public void onFloatingMapClick() {
+        String location = mOrganization.getAddress()+ COMA + CITY + mOrganization.getCityName() + COMA + mOrganization.getRegionName();
+        getViewState().showMap(location);
+    }
+
+    public void onFloatingSiteClick() {
+        String url = mOrganization.getLink();
+        if (URLUtil.isValidUrl(url)) {
+            getViewState().showSite(url);
+        }
+    }
+
+    public void onFloatingPhoneClick() {
+        if (mOrganization.getPhone() == null) {
+            getViewState().showError(ErrorConstants.PHONE_NOT_EXIST);
+        } else {
+            getViewState().makeCall(mOrganization.getPhone());
+        }
     }
 
 }

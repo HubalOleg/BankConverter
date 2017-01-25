@@ -1,7 +1,10 @@
 package com.oleg.hubal.bankconverter.organization_list;
 
 import com.oleg.hubal.bankconverter.DBFlow;
+import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
+import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Organization;
+import com.oleg.hubal.bankconverter.model.data.Region;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
 
@@ -13,6 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyListOf;
@@ -109,9 +115,18 @@ public class OrganizationListTest {
 
     @Test
     public void queryOrganizationList_WithKey() {
+        Region region = new Region("", "");
+        region.save();
+        City city = new City("", "");
+        city.save();
+        List<Organization> organizationList = new ArrayList<>();
+        Organization organization = new Organization("key", "", "", "", "", "", "", null);
+        organizationList.add(organization);
+        CurrencyDatabaseUtils.saveOrganizationList(organizationList);
+        mOrganizationListPresenter.loadOrganizationList();
         mOrganizationListPresenter.queryOrganizationList("key");
 
-        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
+        verify(mOrganizationListView, times(3)).showOrganizationList(anyList());
     }
 
     @Test

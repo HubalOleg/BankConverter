@@ -88,12 +88,14 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
+            mSwipeRefreshLayout.setRefreshing(false);
             mOrganizationListPresenter.onRefresh();
         }
     };
 
     @InjectPresenter
     OrganizationListPresenter mOrganizationListPresenter;
+    private SearchView mSearchView;
 
     public static OrganizationListFragment newInstance() {
         OrganizationListFragment fragment = new OrganizationListFragment();
@@ -140,17 +142,16 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setActionView(item, searchView);
-        searchView.setOnQueryTextListener(mOnQueryTextListener);
-        searchView.setOnCloseListener(mOnCloseListener);
+        mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(item, mSearchView);
+        mSearchView.setOnQueryTextListener(mOnQueryTextListener);
+        mSearchView.setOnCloseListener(mOnCloseListener);
 
     }
 
     @Override
     public void refreshData() {
         mOrganizationTransitionListener.onRefreshData();
-        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -181,5 +182,10 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }

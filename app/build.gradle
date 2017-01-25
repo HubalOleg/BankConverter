@@ -34,6 +34,7 @@ dependencies {
     compile "com.path:android-priority-jobqueue:$rootProject.jobQueueVersion"
     compile "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
     compile "com.google.code.gson:gson:$rootProject.gsonVersion"
+    compile "com.github.clans:fab:$rootProject.floatingActionButtonVersion"
 
     compile "com.jakewharton:butterknife:$rootProject.butterKnifeVersion"
     apt "com.jakewharton:butterknife-compiler:$rootProject.butterKnifeVersion"

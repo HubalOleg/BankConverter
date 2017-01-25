@@ -1,95 +1,149 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_primary_color">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:orientation="vertical"
-                  tools:context="com.oleg.hubal.bankconverter.detail.DetailFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_primary_color">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:background="@android:color/white"
-            android:orientation="vertical"
-            android:padding="@dimen/layout_padding">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_title_detail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/pink"
-                android:textSize="25sp"/>
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="@dimen/layout_padding">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_title_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/pink"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/detail_site_title"/>
+
+                <TextView
+                    android:id="@+id/tv_site_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_phone_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_address_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_region_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_city_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/detail_site_title"/>
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_light"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_padding">
 
-            <TextView
-                android:id="@+id/tv_site_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="@string/title_curr_name"
+                    android:textSize="18sp"/>
 
-            <TextView
-                android:id="@+id/tv_phone_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Покупка / \n Продажа"/>
 
-            <TextView
-                android:id="@+id/tv_address_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_region_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/tv_city_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_currency_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_light"/>
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <com.github.clans.fab.FloatingActionMenu
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium"
+        fab:menu_colorNormal="@color/pink"
+        fab:menu_colorPressed="@color/pink">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_map"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_light"
-            android:background="@android:color/white"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_padding">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/title_curr_name"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="Покупка / \n Продажа"/>
-
-        </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_currency_recycler"
-            android:layout_marginTop="@dimen/margin_light"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-</ScrollView>
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_location_on"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:useCompatPadding="true"
+            fab:fab_size="mini"
+            fab:fab_label="Карта"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_insert_link"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:useCompatPadding="true"
+            fab:fab_size="mini"
+            fab:fab_label="Сайт"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_local_phone"
+            fab:fab_colorNormal="@color/colorPrimaryDark"
+            fab:fab_colorPressed="@color/colorPrimary"
+            fab:useCompatPadding="true"
+            fab:fab_size="mini"
+            fab:fab_label="Позвонить"/>
+    </com.github.clans.fab.FloatingActionMenu>
+</RelativeLayout>
