@@ -1,6 +1,7 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.organization_list;
 
 
+import android.text.TextUtils;
 import android.webkit.URLUtil;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -39,6 +40,11 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void queryOrganizationList(String queryKey) {
+        if (TextUtils.isEmpty(queryKey)) {
+            getViewState().showOrganizationList(mOrganizationList);
+            return;
+        }
+
         List<Organization> mQueryList = new ArrayList<>();
 
         queryKey = queryKey.toLowerCase();

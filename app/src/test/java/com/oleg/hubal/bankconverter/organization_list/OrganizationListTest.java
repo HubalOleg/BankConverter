@@ -73,13 +73,6 @@ public class OrganizationListTest {
     }
 
     @Test
-    public void queryOrganizationList_ShowList() {
-        mOrganizationListPresenter.queryOrganizationList("");
-
-        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
-    }
-
-    @Test
     public void onSearchClosed_ShowList() {
         mOrganizationListPresenter.onSearchClosed();
 
@@ -115,8 +108,15 @@ public class OrganizationListTest {
     }
 
     @Test
-    public void queryOrganizationList() {
+    public void queryOrganizationList_WithKey() {
         mOrganizationListPresenter.queryOrganizationList("key");
+
+        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
+    }
+
+    @Test
+    public  void queryOrganizationList_EmptyKey() {
+        mOrganizationListPresenter.queryOrganizationList("");
 
         verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
     }

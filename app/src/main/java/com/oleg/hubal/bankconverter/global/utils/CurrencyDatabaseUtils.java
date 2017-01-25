@@ -43,15 +43,16 @@ public class CurrencyDatabaseUtils {
     }
 
     private static void setDataAndSave(Organization organization) {
-        String regionName = SQLite.select().from(Region.class)
+        Region region = SQLite.select().from(Region.class)
                 .where(Region_Table.regionId.is(organization.getRegionId()))
-                .querySingle()
-                .getName();
+                .querySingle();
 
-        String cityName = SQLite.select().from(City.class)
+        City city = SQLite.select().from(City.class)
                 .where(City_Table.cityId.is(organization.getCityId()))
-                .querySingle()
-                .getName();
+                .querySingle();
+
+        String regionName = (region == null) ? "" : region.getName();
+        String cityName = (city == null) ? "" : city.getName();
 
         organization.setRegionName(regionName);
         organization.setCityName(cityName);

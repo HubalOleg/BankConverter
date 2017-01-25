@@ -55,7 +55,7 @@ public class Organization extends BaseModel {
     String cityName;
     @ColumnIgnore
     transient List<Currency> currency;
-    
+
     @OneToMany(methods = {OneToMany.Method.ALL}, variableName = "currency")
     public List<Currency> oneToManyCurrencies() {
         if (currency == null || currency.isEmpty()) {

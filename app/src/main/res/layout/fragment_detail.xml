@@ -1,13 +1,13 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/light_primary_color">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:tools="http://schemas.android.com/tools"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:background="@color/light_primary_color"
                   android:orientation="vertical"
                   tools:context="com.oleg.hubal.bankconverter.detail.DetailFragment">
 
@@ -84,5 +84,12 @@
                 android:text="Покупка / \n Продажа"/>
 
         </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_currency_recycler"
+            android:layout_marginTop="@dimen/margin_light"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </ScrollView>

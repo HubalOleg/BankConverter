@@ -3,6 +3,8 @@ package com.oleg.hubal.bankconverter.ui.fragment.detail;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,15 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.oleg.hubal.bankconverter.R;
+import com.oleg.hubal.bankconverter.adapter.CurrencyAdapter;
 import com.oleg.hubal.bankconverter.global.constants.Constants;
 import com.oleg.hubal.bankconverter.global.listener.OrganizationTransitionListener;
+import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +30,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     public static final String TAG = "DetailFragment";
 
     private OrganizationTransitionListener mOrganizationTransitionListener;
+    private CurrencyAdapter mCurrencyAdapter;
 
     @BindView(R.id.tv_title_detail)
     TextView mTitleTextView;
@@ -37,6 +44,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     TextView mRegionTextView;
     @BindView(R.id.tv_phone_detail)
     TextView mPhoneTextView;
+    @BindView(R.id.rv_currency_recycler)
+    RecyclerView mCurrencyRecyclerView;
 
     @InjectPresenter
     DetailPresenter mDetailPresenter;
@@ -52,14 +61,6 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        String organizationId = getArguments().getString(Constants.BUNDLE_ORGANIZATION_ID);
-        mDetailPresenter.onLoadOrganization(organizationId);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -71,6 +72,18 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(DetailFragment.this, view);
+
+        mCurrencyRecyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mCurrencyRecyclerView.setLayoutManager(layoutManager);
+
+        mCurrencyAdapter = new CurrencyAdapter();
+        mCurrencyRecyclerView.setAdapter(mCurrencyAdapter);
+
+        String organizationId = getArguments().getString(Constants.BUNDLE_ORGANIZATION_ID);
+        mDetailPresenter.onLoadOrganization(organizationId);
+        mDetailPresenter.onLoadCurrency(organizationId);
         return view;
     }
 
@@ -82,5 +95,10 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
         mCityTextView.setText(String.format(getString(R.string.detail_city), organization.getCityName()));
         mRegionTextView.setText(String.format(getString(R.string.detail_region), organization.getRegionName()));
         mPhoneTextView.setText(String.format(getString(R.string.detail_phone), organization.getPhone()));
+    }
+
+    @Override
+    public void showCurrencyData(List<CurrencyUI> currencyUIList) {
+        mCurrencyAdapter.setCurrencyUIList(currencyUIList);
     }
 }

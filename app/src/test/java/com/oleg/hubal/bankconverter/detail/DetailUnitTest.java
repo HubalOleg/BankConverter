@@ -1,10 +1,12 @@
 package com.oleg.hubal.bankconverter.detail;
 
 import com.oleg.hubal.bankconverter.DBFlow;
+import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +16,10 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.io.IOException;
+
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -34,7 +39,7 @@ public class DetailUnitTest {
     public final DBFlow mDBFlow = DBFlow.create();
 
     @Before
-    public void setupPresenter() {
+    public void setupPresenter() throws IOException, JSONException {
         MockitoAnnotations.initMocks(DetailUnitTest.this);
 
         mDetailPresenter = new DetailPresenter();
@@ -46,5 +51,12 @@ public class DetailUnitTest {
         mDetailPresenter.onLoadOrganization("");
 
         verify(mDetailView).showOrganizationData(any(Organization.class));
+    }
+
+    @Test
+    public void loadCurrency_ShowCurrencyUIList() {
+        mDetailPresenter.onLoadCurrency("");
+
+        verify(mDetailView).showCurrencyData(anyListOf(CurrencyUI.class));
     }
 }
