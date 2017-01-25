@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +26,6 @@ import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -36,6 +34,7 @@ import butterknife.ButterKnife;
 
 public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     public static final String TAG = "DetailFragment";
+    public static final String TAG_SHARE_DIALOG = "share_dialog";
 
     private OrganizationTransitionListener mOrganizationTransitionListener;
     private CurrencyAdapter mCurrencyAdapter;
@@ -60,8 +59,6 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     FloatingActionButton mSiteFloatingButton;
     @BindView(R.id.fab_phone)
     FloatingActionButton mPhoneFloatingButton;
-    @BindView(R.id.share_view)
-    ImageView mShareImageView;
 
     @InjectPresenter
     DetailPresenter mDetailPresenter;
@@ -183,6 +180,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
     @Override
     public void showShareDialog(Uri imageUri) {
-        Picasso.with(getContext()).load(imageUri).into(mShareImageView);
+        ShareDialogFragment
+                .newInstance(imageUri)
+                .show(getFragmentManager(), TAG_SHARE_DIALOG);
     }
 }

@@ -21,5 +21,6 @@ public interface DetailView extends MvpView {
     void showMap(String location);
     @StateStrategyType(SkipStrategy.class)
     void showError(String error);
+    @StateStrategyType(SkipStrategy.class)
     void showShareDialog(Uri imageUri);
 }

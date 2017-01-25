@@ -32,4 +32,7 @@
     <string name="detail_region">Регион: %1$s</string>
     <string name="detail_phone">Телефон: %1$s</string>
 
+    <!--DIALOG-->
+    <string name="dialog_share">SHARE</string>
+
 </resources>

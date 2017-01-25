@@ -25,6 +25,7 @@ import static com.oleg.hubal.bankconverter.ui.activity.main.MainActivity.TAG;
  */
 
 public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.OrganizationViewHolder> {
+//    TODO ALARM RECEIVER
 
     private Context mContext;
     private OnOrganizationClickListener mOnOrganizationClickListener;
