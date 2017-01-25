@@ -1,5 +1,7 @@
 package com.oleg.hubal.bankconverter.ui.activity.main;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import com.oleg.hubal.bankconverter.global.utils.LoadUtils;
 import com.oleg.hubal.bankconverter.presentation.presenter.main.MainPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.main.MainView;
 import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
+import com.oleg.hubal.bankconverter.service.receiver.CurrencyAlarmReceiver;
 import com.oleg.hubal.bankconverter.ui.activity.detail_portrait.DetailActivity;
 import com.oleg.hubal.bankconverter.ui.fragment.detail.DetailFragment;
 import com.oleg.hubal.bankconverter.ui.fragment.organization_list.OrganizationListFragment;
@@ -25,7 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.oleg.hubal.bankconverter.R.id.fl_container_land;
-import static com.oleg.hubal.bankconverter.global.constants.Constants.GEO_PREFIX;
 
 public class MainActivity extends MvpAppCompatActivity implements MainView, OrganizationTransitionListener {
     public static final String TAG = "MainActivity";
@@ -46,7 +48,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        cancelAlarm();
         ButterKnife.bind(MainActivity.this);
     }
 
@@ -133,5 +135,29 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
                 .replace(fl_container_land, DetailFragment.newInstance(organizationId))
                 .addToBackStack("")
                 .commit();
+    }
+
+    private void scheduleAlarm() {
+        Intent intent = new Intent(getApplicationContext(), CurrencyAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, CurrencyAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long firstMillis = System.currentTimeMillis();
+        AlarmManager alarm = (AlarmManager) MainActivity.this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_FIFTEEN_MINUTES, pIntent);
+    }
+
+    private void cancelAlarm() {
+        Intent intent = new Intent(getApplicationContext(), CurrencyAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, CurrencyAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarm = (AlarmManager) MainActivity.this.getSystemService(Context.ALARM_SERVICE);
+        alarm.cancel(pIntent);
+    }
+
+    @Override
+    protected void onStop() {
+        scheduleAlarm();
+        super.onStop();
     }
 }

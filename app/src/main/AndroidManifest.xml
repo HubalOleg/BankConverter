@@ -23,8 +23,9 @@
         <activity android:name=".ui.activity.detail_portrait.DetailActivity" />
         <service
             android:name=".service.LoadCurrencyDataService"
-            android:enabled="true"
-            android:exported="true"/>
+            android:exported="false"/>
+        <receiver android:name=".service.receiver.CurrencyAlarmReceiver"
+            android:process=":remote"/>
     </application>
 
 </manifest>

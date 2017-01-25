@@ -68,7 +68,9 @@ public class LoadCurrencyDataService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         startForeground(NOTIFY_ID, mNotifyBuilder.build());
-        EventBus.getDefault().register(LoadCurrencyDataService.this);
+        if (!EventBus.getDefault().isRegistered(LoadCurrencyDataService.this)) {
+            EventBus.getDefault().register(LoadCurrencyDataService.this);
+        }
 
         try {
             loadResponse();
@@ -87,7 +89,7 @@ public class LoadCurrencyDataService extends Service {
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         mNotifyBuilder = new Notification.Builder(getBaseContext())
-                .setSmallIcon(android.R.drawable.ic_input_get)
+                .setSmallIcon(R.drawable.ic_stat_cloud_download)
                 .setContentTitle(getString(R.string.notification_load_title))
                 .setContentText(getString(R.string.notification_connection))
                 .setAutoCancel(false)
