@@ -62,6 +62,7 @@ public class Organization extends BaseModel {
             currency = SQLite.select()
                     .from(Currency.class)
                     .where(Currency_Table.organizationId.eq(id))
+                    .and(Currency_Table.isCurrent.is(true))
                     .queryList();
         }
         return currency;

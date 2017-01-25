@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:background="@color/light_primary_color">
+    android:background="@color/light_grey">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_primary_color">
+        android:background="@color/light_grey">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:text="@string/title_curr_name"
+                    android:text="@string/detail_curr_name"
                     android:textSize="18sp"/>
 
                 <TextView
@@ -120,7 +120,7 @@
             fab:fab_colorPressed="@color/colorPrimary"
             fab:useCompatPadding="true"
             fab:fab_size="mini"
-            fab:fab_label="Карта"/>
+            fab:fab_label="@string/menu_map"/>
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_site"
             android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
             fab:fab_colorPressed="@color/colorPrimary"
             fab:useCompatPadding="true"
             fab:fab_size="mini"
-            fab:fab_label="Сайт"/>
+            fab:fab_label="@string/menu_site"/>
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_phone"
             android:layout_width="wrap_content"
@@ -144,6 +144,16 @@
             fab:fab_colorPressed="@color/colorPrimary"
             fab:useCompatPadding="true"
             fab:fab_size="mini"
-            fab:fab_label="Позвонить"/>
+            fab:fab_label="@string/menu_call"/>
     </com.github.clans.fab.FloatingActionMenu>
+    <ScrollView
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true">
+    <ImageView
+        android:id="@+id/share_view"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    </ScrollView>
 </RelativeLayout>

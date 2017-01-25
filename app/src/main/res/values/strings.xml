@@ -10,6 +10,7 @@
     <string name="notification_connection">Check internet connection!</string>
     <string name="notification_saving_unchangeable">Saving unchangeable data</string>
     <string name="notification_saving_organization">Saving organization</string>
+    <string name="notification_successful">Data successful synchronized</string>
 
     <!--ORGANIZATION LIST-->
     <string name="card_phone">Тел.: %1$s</string>
@@ -18,13 +19,17 @@
 
     <!--MENU-->
     <string name="menu_search">Search</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_call">Позвонить</string>
+    <string name="menu_site">Сайт</string>
+    <string name="menu_map">Карта</string>
 
     <!--DETAIL-->
     <string name="detail_site_title">Официальный сайт банка:</string>
-    <string name="title_curr_name">Название валюты</string>
+    <string name="detail_curr_name">Название валюты</string>
     <string name="detail_address">Адрес: %1$s</string>
     <string name="detail_city">Город: %1$s</string>
     <string name="detail_region">Регион: %1$s</string>
     <string name="detail_phone">Телефон: %1$s</string>
-    <string name="notification_successful">Data successful synchronized</string>
+
 </resources>

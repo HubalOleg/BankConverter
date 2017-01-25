@@ -140,13 +140,13 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
         inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         MenuItemCompat.setActionView(item, mSearchView);
         mSearchView.setOnQueryTextListener(mOnQueryTextListener);
         mSearchView.setOnCloseListener(mOnCloseListener);
-
     }
 
     @Override
@@ -182,10 +182,5 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 }

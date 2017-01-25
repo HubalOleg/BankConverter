@@ -44,6 +44,7 @@ public class CurrencyDatabaseUtilsTest {
         List<Currency> currencyList = new ArrayList<>();
 
         Currency currency = new Currency("organizationId", "nameAbbreviation", "ask", "bid");
+        currency.setCurrent(true);
         currencyList.add(currency);
 
         Organization organization = new Organization("organizationId", "title", "regionId", "cityId", "phone", "address", "link", currencyList);

@@ -78,7 +78,7 @@ public class DetailUnitTest {
         organizationList.add(organization);
         CurrencyDatabaseUtils.saveOrganizationList(organizationList);
 
-        mDetailPresenter.onLoadCurrency("id");
+        mDetailPresenter.onLoadCurrency();
 
         verify(mDetailView).showCurrencyData(anyListOf(CurrencyUI.class));
     }

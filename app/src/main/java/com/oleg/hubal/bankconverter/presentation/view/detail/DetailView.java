@@ -1,5 +1,7 @@
 package com.oleg.hubal.bankconverter.presentation.view.detail;
 
+import android.net.Uri;
+
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.SkipStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -19,4 +21,5 @@ public interface DetailView extends MvpView {
     void showMap(String location);
     @StateStrategyType(SkipStrategy.class)
     void showError(String error);
+    void showShareDialog(Uri imageUri);
 }

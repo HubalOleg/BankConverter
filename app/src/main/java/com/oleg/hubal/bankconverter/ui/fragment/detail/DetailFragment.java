@@ -1,13 +1,18 @@
 package com.oleg.hubal.bankconverter.ui.fragment.detail;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +27,7 @@ import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,6 +60,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     FloatingActionButton mSiteFloatingButton;
     @BindView(R.id.fab_phone)
     FloatingActionButton mPhoneFloatingButton;
+    @BindView(R.id.share_view)
+    ImageView mShareImageView;
 
     @InjectPresenter
     DetailPresenter mDetailPresenter;
@@ -102,6 +110,8 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         ButterKnife.bind(DetailFragment.this, view);
 
+        setHasOptionsMenu(true);
+
         mMapFloatingButton.setOnClickListener(mOnMapClickListener);
         mSiteFloatingButton.setOnClickListener(mOnSiteClickListener);
         mPhoneFloatingButton.setOnClickListener(mOnPhoneClickListener);
@@ -116,8 +126,24 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
         String organizationId = getArguments().getString(Constants.BUNDLE_ORGANIZATION_ID);
         mDetailPresenter.onLoadOrganization(organizationId);
-        mDetailPresenter.onLoadCurrency(organizationId);
+        mDetailPresenter.onLoadCurrency();
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.share, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                mDetailPresenter.onShareClick(getContext().getCacheDir().toString());
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -153,5 +179,10 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showShareDialog(Uri imageUri) {
+        Picasso.with(getContext()).load(imageUri).into(mShareImageView);
     }
 }
