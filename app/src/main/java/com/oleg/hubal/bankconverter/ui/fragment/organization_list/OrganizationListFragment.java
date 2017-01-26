@@ -89,12 +89,14 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            mOrganizationListPresenter.onRefresh();
+            mOrganizationListPresenter.onRefresh(LoadCurrencyDataService.isRunning());
         }
     };
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     OrganizationListPresenter mOrganizationListPresenter;
+    private MenuItem mSearchMenuItem;
+    private SearchView mSearchView;
 
     public static OrganizationListFragment newInstance() {
         OrganizationListFragment fragment = new OrganizationListFragment();
@@ -147,12 +149,19 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.search, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setActionView(item, searchView);
-        searchView.setOnQueryTextListener(mOnQueryTextListener);
-        searchView.setOnCloseListener(mOnCloseListener);
+        mSearchMenuItem = menu.findItem(R.id.action_search);
+        mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(mSearchMenuItem, mSearchView);
+        mSearchView.setOnQueryTextListener(mOnQueryTextListener);
+        mSearchView.setOnCloseListener(mOnCloseListener);
+        mOrganizationListPresenter.onMenuCreated();
+    }
 
+    @Override
+    public void setSearchQuery(String query) {
+        mSearchMenuItem.expandActionView();
+        mSearchView.setQuery(query, false);
+        mSearchView.clearFocus();
     }
 
     @Override

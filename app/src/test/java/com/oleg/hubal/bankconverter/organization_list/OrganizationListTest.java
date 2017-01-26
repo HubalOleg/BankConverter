@@ -51,6 +51,14 @@ public class OrganizationListTest {
     }
 
     @Test
+    public void onMenuCreated_SetSearchQuery() {
+        mOrganizationListPresenter.filterOrganizationList("query");
+        mOrganizationListPresenter.onMenuCreated();
+
+        verify(mOrganizationListView).setSearchQuery("query");
+    }
+
+    @Test
     public void loadOrganizationList_ShowList() {
         mOrganizationListPresenter.loadOrganizationList();
 
@@ -108,9 +116,16 @@ public class OrganizationListTest {
 
     @Test
     public void onRefresh_RefreshData() {
-        mOrganizationListPresenter.onRefresh();
+        mOrganizationListPresenter.onRefresh(false);
 
-        verify(mOrganizationListView).refreshData();
+        verify(mOrganizationListView).launchLoadCurrencyService();
+    }
+
+    @Test
+    public void onRefresh_AlreadyRunning() {
+        mOrganizationListPresenter.onRefresh(true);
+
+        verify(mOrganizationListView).stopRefreshing();
     }
 
     @Test

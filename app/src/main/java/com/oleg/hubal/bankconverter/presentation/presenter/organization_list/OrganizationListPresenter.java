@@ -1,7 +1,6 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.organization_list;
 
 
-import android.text.TextUtils;
 import android.webkit.URLUtil;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -10,7 +9,6 @@ import com.oleg.hubal.bankconverter.global.constants.ErrorConstants;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
-import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,10 +21,13 @@ import java.util.List;
 @InjectViewState
 public class OrganizationListPresenter extends MvpPresenter<OrganizationListView> {
 
+    private static final String TAG = "OrganizationListPresent";
+
     private static final String COMA = ", ";
     private static final String CITY = "город ";
 
     private List<Organization> mOrganizationList;
+    private String mQueryKey;
 
     public OrganizationListPresenter() {
         EventBus.getDefault().register(OrganizationListPresenter.this);
@@ -39,8 +40,14 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         loadOrganizationList();
     }
 
-    public void onRefresh() {
-        if (!LoadCurrencyDataService.isRunning()) {
+    public void onMenuCreated() {
+        if (mQueryKey != null && !mQueryKey.isEmpty()) {
+            getViewState().setSearchQuery(mQueryKey);
+        }
+    }
+
+    public void onRefresh(boolean isServiceRunning) {
+        if (!isServiceRunning) {
             getViewState().launchLoadCurrencyService();
         } else {
             getViewState().stopRefreshing();
@@ -54,10 +61,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void filterOrganizationList(String queryKey) {
-        if (TextUtils.isEmpty(queryKey)) {
-            getViewState().showOrganizationList(mOrganizationList);
-            return;
-        }
+        mQueryKey = queryKey;
 
         List<Organization> queryList = new ArrayList<>();
 
@@ -79,6 +83,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void onSearchClosed() {
+        mQueryKey = "";
         getViewState().showOrganizationList(mOrganizationList);
     }
 

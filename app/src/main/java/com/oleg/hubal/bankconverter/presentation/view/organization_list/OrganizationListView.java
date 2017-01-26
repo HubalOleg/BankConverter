@@ -27,4 +27,6 @@ public interface OrganizationListView extends MvpView {
     void launchLoadCurrencyService();
     @StateStrategyType(SkipStrategy.class)
     void stopRefreshing();
+    @StateStrategyType(SkipStrategy.class)
+    void setSearchQuery(String query);
 }
