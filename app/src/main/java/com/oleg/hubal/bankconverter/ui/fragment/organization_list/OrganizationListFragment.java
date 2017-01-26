@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.PresenterType;
 import com.oleg.hubal.bankconverter.R;
 import com.oleg.hubal.bankconverter.adapter.OrganizationAdapter;
 import com.oleg.hubal.bankconverter.global.listener.OrganizationTransitionListener;
@@ -93,7 +94,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         }
     };
 
-    @InjectPresenter
+    @InjectPresenter(type = PresenterType.GLOBAL)
     OrganizationListPresenter mOrganizationListPresenter;
 
     public static OrganizationListFragment newInstance() {

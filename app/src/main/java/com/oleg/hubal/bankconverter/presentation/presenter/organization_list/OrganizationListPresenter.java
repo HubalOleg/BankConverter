@@ -21,6 +21,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     private static final String CITY = "город ";
 
     private List<Organization> mOrganizationList;
+    private List<Organization> mQueryList;
 
     @Override
     protected void onFirstViewAttach() {
@@ -45,7 +46,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
             return;
         }
 
-        List<Organization> mQueryList = new ArrayList<>();
+        mQueryList = new ArrayList<>();
 
         queryKey = queryKey.toLowerCase();
 
