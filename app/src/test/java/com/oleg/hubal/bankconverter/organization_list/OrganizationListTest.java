@@ -101,9 +101,9 @@ public class OrganizationListTest {
 
     @Test
     public void onDetailClicked_ShowDetail() {
-        mOrganizationListPresenter.onDetailClicked("organizationId");
+        mOrganizationListPresenter.onDetailClicked("organizationId", 0);
 
-        verify(mOrganizationListView).showDetail("organizationId");
+        verify(mOrganizationListView).showDetail("organizationId", 0);
     }
 
     @Test
@@ -124,14 +124,14 @@ public class OrganizationListTest {
         organizationList.add(organization);
         CurrencyDatabaseUtils.saveOrganizationList(organizationList);
         mOrganizationListPresenter.loadOrganizationList();
-        mOrganizationListPresenter.queryOrganizationList("key");
+        mOrganizationListPresenter.filterOrganizationList("key");
 
         verify(mOrganizationListView, times(3)).showOrganizationList(anyList());
     }
 
     @Test
     public  void queryOrganizationList_EmptyKey() {
-        mOrganizationListPresenter.queryOrganizationList("");
+        mOrganizationListPresenter.filterOrganizationList("");
 
         verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
     }

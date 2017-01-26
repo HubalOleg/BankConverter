@@ -59,15 +59,15 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
                 }
 
                 @Override
-                public void onDetailClick(String organizationId) {
-                    mOrganizationListPresenter.onDetailClicked(organizationId);
+                public void onDetailClick(String organizationId, int position) {
+                    mOrganizationListPresenter.onDetailClicked(organizationId, position);
                 }
             };
 
     private SearchView.OnQueryTextListener mOnQueryTextListener = new SearchView.OnQueryTextListener() {
         @Override
         public boolean onQueryTextSubmit(String query) {
-            mOrganizationListPresenter.queryOrganizationList(query);
+            mOrganizationListPresenter.filterOrganizationList(query);
             return true;
         }
 
@@ -95,7 +95,6 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
 
     @InjectPresenter
     OrganizationListPresenter mOrganizationListPresenter;
-    private SearchView mSearchView;
 
     public static OrganizationListFragment newInstance() {
         OrganizationListFragment fragment = new OrganizationListFragment();
@@ -138,15 +137,21 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mOrganizationAdapter.deselectItems();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
-        MenuItemCompat.setActionView(item, mSearchView);
-        mSearchView.setOnQueryTextListener(mOnQueryTextListener);
-        mSearchView.setOnCloseListener(mOnCloseListener);
+        SearchView searchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(item, searchView);
+        searchView.setOnQueryTextListener(mOnQueryTextListener);
+        searchView.setOnCloseListener(mOnCloseListener);
     }
 
     @Override
@@ -155,7 +160,8 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     }
 
     @Override
-    public void showDetail(String organizationId) {
+    public void showDetail(String organizationId, int position) {
+        mOrganizationAdapter.setOrganizationSelected(position);
         mOrganizationTransitionListener.showDetailTransition(organizationId);
     }
 

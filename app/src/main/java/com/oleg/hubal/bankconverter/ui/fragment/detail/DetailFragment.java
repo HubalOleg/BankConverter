@@ -109,10 +109,20 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
         setHasOptionsMenu(true);
 
+        setListeners();
+        initList();
+        loadData();
+
+        return view;
+    }
+
+    private void setListeners() {
         mMapFloatingButton.setOnClickListener(mOnMapClickListener);
         mSiteFloatingButton.setOnClickListener(mOnSiteClickListener);
         mPhoneFloatingButton.setOnClickListener(mOnPhoneClickListener);
+    }
 
+    private void initList() {
         mCurrencyRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -120,11 +130,12 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
         mCurrencyAdapter = new CurrencyAdapter();
         mCurrencyRecyclerView.setAdapter(mCurrencyAdapter);
+    }
 
+    private void loadData() {
         String organizationId = getArguments().getString(Constants.BUNDLE_ORGANIZATION_ID);
         mDetailPresenter.onLoadOrganization(organizationId);
         mDetailPresenter.onLoadCurrency();
-        return view;
     }
 
     @Override

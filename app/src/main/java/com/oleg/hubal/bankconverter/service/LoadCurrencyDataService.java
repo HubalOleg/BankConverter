@@ -132,6 +132,7 @@ public class LoadCurrencyDataService extends Service {
         }
 
         if (LoadUtils.isDataUpdated(currentDate, responseDate)) {
+            saveCities();
             saveOrganizationData();
             responseDate.save();
         }
@@ -142,11 +143,9 @@ public class LoadCurrencyDataService extends Service {
         changeNotificationMessage(getString(R.string.notification_saving_unchangeable));
         List<CurrencyAbbr> currencyAbbrList = mResponseParseManager.getCurrencyAbbrList();
         List<Region> regionList = mResponseParseManager.getRegionList();
-        List<City> cityList = mResponseParseManager.getCityList();
 
         CurrencyDatabaseUtils.saveList(currencyAbbrList);
         CurrencyDatabaseUtils.saveList(regionList);
-        CurrencyDatabaseUtils.saveList(cityList);
 
         PreferenceManager.setUnchangeableDataLoaded(getApplicationContext(), true);
     }
@@ -157,8 +156,13 @@ public class LoadCurrencyDataService extends Service {
 
         if (organizationList.size() > 0) {
             CurrencyDatabaseUtils.saveOrganizationList(organizationList);
-
         }
+    }
+
+    private void saveCities() throws JSONException {
+        changeNotificationMessage(getString(R.string.notification_saving_cities));
+        List<City> cityList = mResponseParseManager.getCityList();
+        CurrencyDatabaseUtils.saveList(cityList);
     }
 
     private void dataSuccessfulSynchronized() {

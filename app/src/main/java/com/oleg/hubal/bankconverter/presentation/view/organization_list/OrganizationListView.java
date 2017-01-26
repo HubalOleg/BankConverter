@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrganizationListView extends MvpView {
 
-//    @StateStrategyType(SkipStrategy.class)
+    @StateStrategyType(SkipStrategy.class)
     void showOrganizationList(List<Organization> organizationList);
     @StateStrategyType(SkipStrategy.class)
     void showSite(String url);
@@ -22,5 +22,5 @@ public interface OrganizationListView extends MvpView {
     @StateStrategyType(SkipStrategy.class)
     void refreshData();
     @StateStrategyType(SkipStrategy.class)
-    void showDetail(String organizationId);
+    void showDetail(String organizationId, int position);
 }

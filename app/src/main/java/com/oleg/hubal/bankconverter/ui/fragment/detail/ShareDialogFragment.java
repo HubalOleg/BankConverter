@@ -53,9 +53,9 @@ public class ShareDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("image/png");
+                intent.setType(getString(R.string.INTENT_TYPE));
                 intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                startActivity(Intent.createChooser(intent, "Share Image"));
+                startActivity(Intent.createChooser(intent, getString(R.string.intent_share_image)));
             }
         });
 

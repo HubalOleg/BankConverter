@@ -50,6 +50,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
         setContentView(R.layout.activity_main);
         cancelAlarm();
         ButterKnife.bind(MainActivity.this);
+
     }
 
     @Override
@@ -93,7 +94,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
 
     @Override
     public void showMapTransition(String location) {
-        Intent searchAddress = new  Intent(Intent.ACTION_VIEW,Uri.parse(Constants.GEO_PREFIX + location));
+        Intent searchAddress = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GEO_PREFIX + location));
         startActivity(searchAddress);
     }
 
@@ -133,7 +134,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainView, Orga
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(fl_container_land, DetailFragment.newInstance(organizationId))
-                .addToBackStack("")
                 .commit();
     }
 

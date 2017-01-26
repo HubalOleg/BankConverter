@@ -10,6 +10,7 @@
     <string name="notification_connection">Check internet connection!</string>
     <string name="notification_saving_unchangeable">Saving unchangeable data</string>
     <string name="notification_saving_organization">Saving organization</string>
+    <string name="notification_saving_cities">Saving cities</string>
     <string name="notification_successful">Data successful synchronized</string>
 
     <!--ORGANIZATION LIST-->
@@ -34,5 +35,7 @@
 
     <!--DIALOG-->
     <string name="dialog_share">SHARE</string>
+    <string name="intent_share_image">Share Image</string>
+    <string name="INTENT_TYPE">image/png</string>
 
 </resources>

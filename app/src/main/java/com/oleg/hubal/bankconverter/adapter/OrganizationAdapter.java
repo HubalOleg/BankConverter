@@ -18,31 +18,37 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.oleg.hubal.bankconverter.ui.activity.main.MainActivity.TAG;
-
 /**
  * Created by User on 23.01.2017.
  */
 
 public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapter.OrganizationViewHolder> {
-//    TODO ALARM RECEIVER
+
+    private static final String TAG = "OrganizationAdapter";
 
     private Context mContext;
     private OnOrganizationClickListener mOnOrganizationClickListener;
     private List<Organization> mOrganizationList;
-    private List<Organization> mListCopy;
+    private List<OrganizationViewHolder> mOrganizationHolderList;
+    private OrganizationViewHolder mOrganizationViewHolder;
+    private int mActivePosition = -1;
+
 
     public OrganizationAdapter(Context context, OnOrganizationClickListener onOrganizationClickListener) {
         mContext = context;
         mOnOrganizationClickListener = onOrganizationClickListener;
         mOrganizationList = new ArrayList<>();
+        mOrganizationHolderList = new ArrayList<>();
     }
 
     @Override
     public OrganizationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_organization, parent, false);
 
-        return new OrganizationViewHolder(view);
+        OrganizationViewHolder organizationViewHolder = new OrganizationViewHolder(view);
+        mOrganizationHolderList.add(organizationViewHolder);
+
+        return organizationViewHolder;
     }
 
     @Override
@@ -56,26 +62,39 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
     }
 
     public void setOrganizationList(List<Organization> organizationList) {
+        mActivePosition = - 1;
         mOrganizationList = organizationList;
-        mListCopy = organizationList;
         notifyDataSetChanged();
     }
 
-    public void filter(String queryKey) {
-        Log.d(TAG, "filter: ");
-        mOrganizationList.clear();
-        if (queryKey.isEmpty()) {
-            mOrganizationList.addAll(mListCopy);
-        } else {
-            queryKey = queryKey.toLowerCase();
-            for (Organization item : mListCopy) {
-                if (item.getTitle().toLowerCase().contains(queryKey)
-                        ) {
-                    mOrganizationList.add(item);
-                }
+    public void setOrganizationSelected(int position) {
+        if (mOrganizationViewHolder != null) {
+            mOrganizationViewHolder.changeSelection(false);
+        }
+
+        Log.d(TAG, "setOrganizationSelected: " + position + " " + mActivePosition);
+        mActivePosition = position;
+
+        mOrganizationViewHolder = getOrganizationViewHolder(position);
+        if (mOrganizationViewHolder != null) {
+            mOrganizationViewHolder.changeSelection(true);
+        }
+    }
+
+    public void deselectItems() {
+        mActivePosition = -1;
+        if (mOrganizationViewHolder != null) {
+            mOrganizationViewHolder.changeSelection(false);
+        }
+    }
+
+    private OrganizationViewHolder getOrganizationViewHolder(int position) {
+        for (OrganizationViewHolder organizationViewHolder : mOrganizationHolderList) {
+            if (organizationViewHolder.getBoundPosition() == position) {
+                return organizationViewHolder;
             }
         }
-        notifyDataSetChanged();
+        return null;
     }
 
     class OrganizationViewHolder extends RecyclerView.ViewHolder {
@@ -127,7 +146,7 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         private View.OnClickListener mOnDetailClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mOnOrganizationClickListener.onDetailClick(mOrganization.getId());
+                mOnOrganizationClickListener.onDetailClick(mOrganization.getId(), mPosition);
             }
         };
 
@@ -149,6 +168,15 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
             mCityTextView.setText(organization.getCityName());
             mPhoneTextView.setText(String.format(mContext.getString(R.string.card_phone), organization.getPhone()));
             mAddressTextView.setText(String.format(mContext.getString(R.string.card_address), organization.getAddress()));
+            changeSelection(mPosition == mActivePosition);
+        }
+
+        public int getBoundPosition() {
+            return mPosition;
+        }
+
+        public void changeSelection(boolean isSelected) {
+            mDetailButton.setSelected(isSelected);
         }
     }
 
@@ -159,6 +187,6 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
 
         void onPhoneClick(String phone);
 
-        void onDetailClick(String organizationId);
+        void onDetailClick(String organizationId, int position);
     }
 }

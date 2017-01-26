@@ -39,7 +39,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         getViewState().showOrganizationList(mOrganizationList);
     }
 
-    public void queryOrganizationList(String queryKey) {
+    public void filterOrganizationList(String queryKey) {
         if (TextUtils.isEmpty(queryKey)) {
             getViewState().showOrganizationList(mOrganizationList);
             return;
@@ -87,7 +87,7 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
         }
     }
 
-    public void onDetailClicked(String organizationId) {
-        getViewState().showDetail(organizationId);
+    public void onDetailClicked(String organizationId, int position) {
+        getViewState().showDetail(organizationId, position);
     }
 }
