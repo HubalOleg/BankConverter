@@ -24,6 +24,7 @@ import com.oleg.hubal.bankconverter.global.listener.OrganizationTransitionListen
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
+import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
 import com.oleg.hubal.bankconverter.ui.activity.main.MainActivity;
 
 import java.util.List;
@@ -89,7 +90,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-            mSwipeRefreshLayout.setRefreshing(false);
+//            mSwipeRefreshLayout.setRefreshing(false);
             mOrganizationListPresenter.onRefresh();
         }
     };
@@ -161,6 +162,16 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     }
 
     @Override
+    public void launchLoadCurrencyService() {
+        getContext().startService(LoadCurrencyDataService.getIntent(getContext()));
+    }
+
+    @Override
+    public void stopRefreshing() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
     public void showDetail(String organizationId, int position) {
         mOrganizationAdapter.setOrganizationSelected(position);
         mOrganizationTransitionListener.showDetailTransition(organizationId);
@@ -189,5 +200,11 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void showError(String error) {
         Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

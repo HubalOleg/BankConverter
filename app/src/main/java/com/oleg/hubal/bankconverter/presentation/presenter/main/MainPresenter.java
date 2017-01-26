@@ -67,11 +67,11 @@ public class MainPresenter extends MvpPresenter<MainView> {
     public void successSynchronizeEvent(SuccessSynchronizeEvent successSynchronizeEvent) {
         getViewState().dismissProgressBar();
         getViewState().showOrganizationList();
+        EventBus.getDefault().unregister(MainPresenter.this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(MainPresenter.this);
     }
 }

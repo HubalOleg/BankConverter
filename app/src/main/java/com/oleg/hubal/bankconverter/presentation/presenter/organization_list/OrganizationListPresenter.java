@@ -8,8 +8,14 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.oleg.hubal.bankconverter.global.constants.ErrorConstants;
 import com.oleg.hubal.bankconverter.model.data.Organization;
+import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
+import com.oleg.hubal.bankconverter.service.LoadCurrencyDataService;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +29,10 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     private List<Organization> mOrganizationList;
     private List<Organization> mQueryList;
 
+    public OrganizationListPresenter() {
+        EventBus.getDefault().register(OrganizationListPresenter.this);
+    }
+
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
@@ -31,7 +41,11 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void onRefresh() {
-        getViewState().refreshData();
+        if (!LoadCurrencyDataService.isRunning()) {
+            getViewState().launchLoadCurrencyService();
+        } else {
+            getViewState().stopRefreshing();
+        }
     }
 
     public void loadOrganizationList() {
@@ -90,5 +104,17 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
 
     public void onDetailClicked(String organizationId, int position) {
         getViewState().showDetail(organizationId, position);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void successSynchronizeEvent(SuccessSynchronizeEvent successSynchronizeEvent) {
+        loadOrganizationList();
+        getViewState().stopRefreshing();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(OrganizationListPresenter.this);
     }
 }
