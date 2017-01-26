@@ -2,6 +2,7 @@ package com.oleg.hubal.bankconverter.presentation.presenter.detail;
 
 
 import android.net.Uri;
+import android.util.Log;
 import android.webkit.URLUtil;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -15,7 +16,7 @@ import com.oleg.hubal.bankconverter.model.data.Currency_Table;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Organization_Table;
 import com.oleg.hubal.bankconverter.presentation.events.CreateImageEvent;
-import com.oleg.hubal.bankconverter.presentation.presenter.async_task.CreateImageTask;
+import com.oleg.hubal.bankconverter.presentation.async_task.CreateImageTask;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -33,6 +34,7 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
 
     private static final String COMA = ", ";
     private static final String CITY = "город ";
+    public static final String TAG = "log";
 
     private Organization mOrganization;
     private Uri mUri;
@@ -76,8 +78,8 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
             currencyUI.setCurrentBid(currency.getBid());
             currencyUI.setAskIncreased(false);
             currencyUI.setBidIncreased(false);
-
             Currency previousCurrency = loadPreviousCurrency(currency);
+
 
             if (previousCurrency != null) {
                 float previousAsk = Float.parseFloat(previousCurrency.getAsk());
@@ -86,7 +88,6 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
                 currencyUI.setAskIncreased(ask > previousAsk);
                 currencyUI.setBidIncreased(bid > previousBid);
             }
-
             currencyUIList.add(currencyUI);
         }
 

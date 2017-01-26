@@ -1,4 +1,4 @@
-package com.oleg.hubal.bankconverter.presentation.presenter.async_task;
+package com.oleg.hubal.bankconverter.presentation.async_task;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

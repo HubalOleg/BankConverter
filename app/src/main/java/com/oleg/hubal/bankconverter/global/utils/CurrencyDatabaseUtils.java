@@ -33,6 +33,7 @@ public class CurrencyDatabaseUtils {
                                 String organizationId = organization.getId();
                                 if (isOrganizationExist(organizationId)) {
                                     updateCurrency(organizationId);
+                                    saveList(organization.getCurrency());
                                 } else {
                                     setDataAndSave(organization);
                                 }
