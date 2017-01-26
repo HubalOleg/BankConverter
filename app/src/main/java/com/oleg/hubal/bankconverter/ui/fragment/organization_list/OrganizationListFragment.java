@@ -33,13 +33,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OrganizationListFragment extends MvpAppCompatFragment implements OrganizationListView {
-    public static final String TAG = "OrganizationList";
 
     private OrganizationAdapter mOrganizationAdapter;
-    private OrganizationTransitionListener mOrganizationTransitionListener;
 
+    private OrganizationTransitionListener mOrganizationTransitionListener;
     @BindView(R.id.srl_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
     @BindView(R.id.rv_organization_list)
     RecyclerView mOrganizationListRecycler;
 
@@ -78,7 +78,6 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
             return false;
         }
     };
-
     private SearchView.OnCloseListener mOnCloseListener = new SearchView.OnCloseListener() {
         @Override
         public boolean onClose() {
@@ -90,7 +89,6 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     private SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
         public void onRefresh() {
-//            mSwipeRefreshLayout.setRefreshing(false);
             mOrganizationListPresenter.onRefresh();
         }
     };
@@ -154,6 +152,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
         MenuItemCompat.setActionView(item, searchView);
         searchView.setOnQueryTextListener(mOnQueryTextListener);
         searchView.setOnCloseListener(mOnCloseListener);
+
     }
 
     @Override

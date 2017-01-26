@@ -27,7 +27,6 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     private static final String CITY = "город ";
 
     private List<Organization> mOrganizationList;
-    private List<Organization> mQueryList;
 
     public OrganizationListPresenter() {
         EventBus.getDefault().register(OrganizationListPresenter.this);
@@ -60,17 +59,17 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
             return;
         }
 
-        mQueryList = new ArrayList<>();
+        List<Organization> queryList = new ArrayList<>();
 
         queryKey = queryKey.toLowerCase();
 
         for (Organization organization : mOrganizationList) {
             if (isOrganizationContainKey(organization, queryKey)) {
-                mQueryList.add(organization);
+                queryList.add(organization);
             }
         }
 
-        getViewState().showOrganizationList(mQueryList);
+        getViewState().showOrganizationList(queryList);
     }
 
     private boolean isOrganizationContainKey(Organization organization, String key) {
