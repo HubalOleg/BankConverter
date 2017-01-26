@@ -1,4 +1,4 @@
-package com.oleg.hubal.bankconverter.ui.fragment.detail;
+package com.oleg.hubal.bankconverter.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -30,7 +30,7 @@ public class ShareDialogFragment extends DialogFragment {
     @BindView(R.id.btn_share)
     Button mShareButton;
 
-    static ShareDialogFragment newInstance(Uri imageUri) {
+    public static ShareDialogFragment newInstance(Uri imageUri) {
         ShareDialogFragment fragment = new ShareDialogFragment();
 
         Bundle args = new Bundle();

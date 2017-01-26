@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
+import com.oleg.hubal.bankconverter.ui.fragment.ShareDialogFragment;
 
 import java.util.List;
 
@@ -140,6 +142,7 @@ public class DetailFragment extends MvpAppCompatFragment implements DetailView {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Log.d(TAG, "onCreateOptionsMenu: ");
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.share, menu);
     }

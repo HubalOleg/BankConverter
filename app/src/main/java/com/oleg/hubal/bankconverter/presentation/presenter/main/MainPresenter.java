@@ -69,9 +69,4 @@ public class MainPresenter extends MvpPresenter<MainView> {
         getViewState().showOrganizationList();
         EventBus.getDefault().unregister(MainPresenter.this);
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 }

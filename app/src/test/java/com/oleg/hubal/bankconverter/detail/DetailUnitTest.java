@@ -1,10 +1,13 @@
 package com.oleg.hubal.bankconverter.detail;
 
+import android.net.Uri;
+
 import com.oleg.hubal.bankconverter.DBFlow;
 import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.model.data.Currency;
 import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Organization;
+import com.oleg.hubal.bankconverter.presentation.events.CreateImageEvent;
 import com.oleg.hubal.bankconverter.presentation.presenter.detail.DetailPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
 
@@ -24,6 +27,7 @@ import java.util.List;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -39,6 +43,8 @@ public class DetailUnitTest {
 
     @Mock
     private DetailView mDetailView;
+    @Mock
+    private Uri mUri;
 
     @Rule
     public final DBFlow mDBFlow = DBFlow.create();
@@ -67,9 +73,9 @@ public class DetailUnitTest {
     @Test
     public void loadCurrency_ShowCurrencyUIList() {
         List<Currency> currencyList = new ArrayList<>();
-        Currency currency = new Currency("id", "", "1.1", "1.1");
+        Currency currency = new Currency("id", "eur", "1.1", "1.1");
         currency.setCurrent(true);
-        Currency previousCurrency = new Currency("id", "", "1.1", "1.1");
+        Currency previousCurrency = new Currency("id", "eur", "1.1", "1.1");
         previousCurrency.setCurrent(false);
         currencyList.add(currency);
         currencyList.add(previousCurrency);
@@ -78,6 +84,7 @@ public class DetailUnitTest {
         organizationList.add(organization);
         CurrencyDatabaseUtils.saveOrganizationList(organizationList);
 
+        mDetailPresenter.onLoadOrganization("id");
         mDetailPresenter.onLoadCurrency();
 
         verify(mDetailView).showCurrencyData(anyListOf(CurrencyUI.class));
@@ -98,9 +105,27 @@ public class DetailUnitTest {
     }
 
     @Test
-    public void onFloatingMapClick_MakeCall() {
+    public void onFloatingPhoneClick_MakeCall() {
         mDetailPresenter.onFloatingPhoneClick();
 
         verify(mDetailView).makeCall("number");
+    }
+
+
+    @Test
+    public void onFloatingPhoneClick_NullNumber() {
+        Organization organization = new Organization("null", null, null, null, null, null, null, null);
+        organization.save();
+        mDetailPresenter.onLoadOrganization("null");
+        mDetailPresenter.onFloatingPhoneClick();
+
+        verify(mDetailView).showError(anyString());
+    }
+
+    @Test
+    public void onCreateImageEvent() {
+        mDetailPresenter.onCreateImageEvent(new CreateImageEvent(mUri));
+
+        verify(mDetailView).showShareDialog(mUri);
     }
 }

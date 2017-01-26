@@ -5,6 +5,7 @@ import com.oleg.hubal.bankconverter.global.utils.CurrencyDatabaseUtils;
 import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Region;
+import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;
 import com.oleg.hubal.bankconverter.presentation.presenter.organization_list.OrganizationListPresenter;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
 
@@ -135,19 +136,27 @@ public class OrganizationListTest {
         City city = new City("", "");
         city.save();
         List<Organization> organizationList = new ArrayList<>();
-        Organization organization = new Organization("key", "", "", "", "", "", "", null);
+        Organization organization = new Organization("", "key", "", "", "", "", "", null);
         organizationList.add(organization);
         CurrencyDatabaseUtils.saveOrganizationList(organizationList);
         mOrganizationListPresenter.loadOrganizationList();
-        mOrganizationListPresenter.filterOrganizationList("key");
+        mOrganizationListPresenter.filterOrganizationList("ke");
 
         verify(mOrganizationListView, times(3)).showOrganizationList(anyList());
     }
 
     @Test
-    public  void queryOrganizationList_EmptyKey() {
+    public void queryOrganizationList_EmptyKey() {
         mOrganizationListPresenter.filterOrganizationList("");
 
         verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
+    }
+
+    @Test
+    public void successSynchronizeEvent_LoadEvent() {
+        mOrganizationListPresenter.successSynchronizeEvent(new SuccessSynchronizeEvent());
+
+        verify(mOrganizationListView, times(2)).showOrganizationList(anyList());
+        verify(mOrganizationListView).stopRefreshing();
     }
 }
