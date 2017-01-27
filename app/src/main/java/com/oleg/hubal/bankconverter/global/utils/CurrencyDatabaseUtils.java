@@ -4,6 +4,7 @@ import com.oleg.hubal.bankconverter.model.CurrencyDatabase;
 import com.oleg.hubal.bankconverter.model.data.City;
 import com.oleg.hubal.bankconverter.model.data.City_Table;
 import com.oleg.hubal.bankconverter.model.data.Currency;
+import com.oleg.hubal.bankconverter.model.data.CurrencyAbbr;
 import com.oleg.hubal.bankconverter.model.data.Currency_Table;
 import com.oleg.hubal.bankconverter.model.data.Date;
 import com.oleg.hubal.bankconverter.model.data.Organization;
@@ -33,7 +34,7 @@ public class CurrencyDatabaseUtils {
                                 String organizationId = organization.getId();
                                 if (isOrganizationExist(organizationId)) {
                                     updateCurrency(organizationId);
-                                    saveList(organization.getCurrency());
+                                    saveCurrency(organization.getCurrency());
                                 } else {
                                     setDataAndSave(organization);
                                 }
@@ -94,10 +95,62 @@ public class CurrencyDatabaseUtils {
                 .executeSync();
     }
 
+    public static void saveCurrency(List<Currency> currencyList) {
+        FlowManager.getDatabase(CurrencyDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<Currency>() {
+                            @Override
+                            public void processModel(Currency currency, DatabaseWrapper wrapper) {
+                                currency.save();
+                            }
+                        }).addAll(currencyList).build())
+                .build()
+                .executeSync();
+    }
+
     public static void saveList(List<? extends BaseModel> baseModelList) {
         for (BaseModel baseModel : baseModelList) {
             baseModel.save();
         }
+    }
+
+    public static void saveRegionList(List<Region> regionList) {
+        FlowManager.getDatabase(CurrencyDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<Region>() {
+                            @Override
+                            public void processModel(Region region, DatabaseWrapper wrapper) {
+                                region.save();
+                            }
+                        }).addAll(regionList).build())
+                .build()
+                .executeSync();
+    }
+
+    public static void saveCityList(List<City> cityList) {
+        FlowManager.getDatabase(CurrencyDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<City>() {
+                            @Override
+                            public void processModel(City city, DatabaseWrapper wrapper) {
+                                city.save();
+                            }
+                        }).addAll(cityList).build())
+                .build()
+                .executeSync();
+    }
+
+    public static void saveCurrencyAbbrList(List<CurrencyAbbr> currencyAbbrList) {
+        FlowManager.getDatabase(CurrencyDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<CurrencyAbbr>() {
+                            @Override
+                            public void processModel(CurrencyAbbr currencyAbbr, DatabaseWrapper wrapper) {
+                                currencyAbbr.save();
+                            }
+                        }).addAll(currencyAbbrList).build())
+                .build()
+                .executeSync();
     }
 
     public static Date queryDate() {
