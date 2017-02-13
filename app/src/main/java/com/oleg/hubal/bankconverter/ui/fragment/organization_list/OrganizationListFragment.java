@@ -116,7 +116,7 @@ public class OrganizationListFragment extends MvpAppCompatFragment implements Or
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mOrganizationTransitionListener = (MainActivity) context;
+        mOrganizationTransitionListener = (OrganizationTransitionListener) context;
     }
 
     @Override

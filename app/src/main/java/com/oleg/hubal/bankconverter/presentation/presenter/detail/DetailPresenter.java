@@ -1,8 +1,6 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.detail;
 
-
 import android.net.Uri;
-import android.util.Log;
 import android.webkit.URLUtil;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -15,8 +13,8 @@ import com.oleg.hubal.bankconverter.model.data.CurrencyUI;
 import com.oleg.hubal.bankconverter.model.data.Currency_Table;
 import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.model.data.Organization_Table;
-import com.oleg.hubal.bankconverter.presentation.events.CreateImageEvent;
 import com.oleg.hubal.bankconverter.presentation.async_task.CreateImageTask;
+import com.oleg.hubal.bankconverter.presentation.events.CreateImageEvent;
 import com.oleg.hubal.bankconverter.presentation.view.detail.DetailView;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -138,8 +136,7 @@ public class DetailPresenter extends MvpPresenter<DetailView> {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCreateImageEvent(CreateImageEvent createImageEvent) {
-        Uri imageUri = createImageEvent.uri;
-        getViewState().showShareDialog(imageUri);
+        getViewState().showShareDialog(createImageEvent.uri);
     }
 
     @Override

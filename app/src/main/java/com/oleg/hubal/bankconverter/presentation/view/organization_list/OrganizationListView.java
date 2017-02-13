@@ -10,6 +10,7 @@ import java.util.List;
 public interface OrganizationListView extends MvpView {
 
 //    @StateStrategyType(SkipStrategy.class)
+//    @StateStrategyType(OneExecutionStateStrategy.class)
     void showOrganizationList(List<Organization> organizationList);
     @StateStrategyType(SkipStrategy.class)
     void showSite(String url);

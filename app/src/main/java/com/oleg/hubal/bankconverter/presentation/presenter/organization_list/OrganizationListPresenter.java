@@ -1,7 +1,6 @@
 package com.oleg.hubal.bankconverter.presentation.presenter.organization_list;
 
 
-import android.support.annotation.NonNull;
 import android.webkit.URLUtil;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -11,7 +10,6 @@ import com.oleg.hubal.bankconverter.model.data.Organization;
 import com.oleg.hubal.bankconverter.presentation.events.SuccessSynchronizeEvent;
 import com.oleg.hubal.bankconverter.presentation.view.organization_list.OrganizationListView;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.structure.database.transaction.QueryTransaction;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,19 +55,19 @@ public class OrganizationListPresenter extends MvpPresenter<OrganizationListView
     }
 
     public void loadOrganizationList() {
-//        mOrganizationList = SQLite.select().from(Organization.class).queryList();
-//
-//        getViewState().showOrganizationList(mOrganizationList);
-        SQLite.select()
-                .from(Organization.class)
-                .async()
-                .queryListResultCallback(new QueryTransaction.QueryResultListCallback<Organization>() {
-                    @Override
-                    public void onListQueryResult(QueryTransaction transaction, @NonNull List<Organization> resultList) {
-                        mOrganizationList = resultList;
-                        getViewState().showOrganizationList(resultList);
-                    }
-                }).execute();
+        mOrganizationList = SQLite.select().from(Organization.class).queryList();
+
+        getViewState().showOrganizationList(mOrganizationList);
+//        SQLite.select()
+//                .from(Organization.class)
+//                .async()
+//                .queryListResultCallback(new QueryTransaction.QueryResultListCallback<Organization>() {
+//                    @Override
+//                    public void onListQueryResult(QueryTransaction transaction, @NonNull List<Organization> resultList) {
+//                        mOrganizationList = resultList;
+//                        getViewState().showOrganizationList(resultList);
+//                    }
+//                }).execute();
     }
 
     public void filterOrganizationList(String queryKey) {
